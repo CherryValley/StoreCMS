@@ -3,7 +3,7 @@ var app = new Vue({
   data: {
     brandNameCN: '',
     brandNameEN: '',
-    brandImageUrl: '1'
+    brandImageUrl: '3'
   },
   computed: {
     enabledSave: function () {
