@@ -1,0 +1,11 @@
+.no-margin-bottom{
+  margin-bottom: 0;
+}
+.check-error{
+  border: 1px solid #ff2900 !important;
+}
+.store-alert{
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding-left: 25px;
+}
