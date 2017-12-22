@@ -1,29 +1,118 @@
 var express = require('express');
 var fs = require('fs');
-var brandService = require('../service/brandService');
+var commonService = require('../service/commonService');
+var pagingUtils = require('../common/pagingUtils');
 var multer = require('multer');
 var router = express.Router();
 var upload = multer({dest:'public/images/brand/'});
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  brandService.getAllBrand(function (result) {
+  var service = new commonService.CommonService('brand');
+  var pageNumber = req.query.page;
+  if(pageNumber === undefined){
+    pageNumber = 1;
+  }
+
+  service.getAll(pageNumber, function (result) {
     if(result.err || !result.content.result){
-      res.render('brand', { title: '品牌维护', brandList: [] });
+      res.render('brand', {
+        title: '品牌维护',
+        totalCount: 0,
+        paginationArray:[],
+        brandList: []
+      });
     }else{
-      res.render('brand', { title: '品牌维护', brandList: result.content.responseData });
+      var paginationArray = pagingUtils.getPaginationArray(pageNumber, result.content.totalCount);
+      var prePaginationNum = pagingUtils.getPrePaginationNum(pageNumber);
+      var nextPaginationNum = pagingUtils.getNextPaginationNum(pageNumber, result.content.totalCount);
+      var renderData = {};
+      if(result.content.responseData.length <= 0){
+        renderData = {
+          title: '品牌维护',
+          totalCount: result.content.totalCount,
+          currentPageNum: pageNumber,
+          brandList: result.content.responseData
+        }
+      }else{
+        if(prePaginationNum === 0){
+          renderData = {
+            title: '品牌维护',
+            totalCount: result.content.totalCount,
+            paginationArray: paginationArray,
+            nextPageNum: nextPaginationNum,
+            currentPageNum: pageNumber,
+            brandList: result.content.responseData
+          }
+        }
+        if(nextPaginationNum === -1){
+          renderData = {
+            title: '品牌维护',
+            totalCount: result.content.totalCount,
+            paginationArray: paginationArray,
+            prePageNum: prePaginationNum,
+            currentPageNum: pageNumber,
+            brandList: result.content.responseData
+          }
+        }
+      }
+
+      res.render('brand', renderData);
     }
   });
 });
 
 router.post('/', function (req, res, next) {
+  var service = new commonService.CommonService('brand');
   var data = {
     brandCN: req.body.brandCN,
     brandEN: req.body.brandEN,
     loginUser: req.body.loginUser
   };
 
-  brandService.addBrand(data, function (result) {
+  service.add(data, function (result) {
+    if(result.err){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        data: result.content
+      });
+    }
+  });
+});
+
+router.put('/', function(req,res,next){
+  var service = new commonService.CommonService('brand');
+  var data = {
+    brandID: req.body.brandID,
+    brandCN: req.body.brandCN,
+    brandEN: req.body.brandEN,
+    loginUser: req.body.loginUser
+  };
+
+  service.change(data, function (result) {
+    if(result.err){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        data: result.content
+      });
+    }
+  });
+});
+
+router.delete('/', function (req, res, next) {
+  var service = new commonService.CommonService('brand');
+  var brandID = req.query.brandID;
+
+  service.delete(brandID, function (result) {
     if(result.err){
       res.json({
         err: true,
