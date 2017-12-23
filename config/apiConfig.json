@@ -4,6 +4,8 @@
     "port": 8080,
     "path": {
       "brand": "/api/brand",
+      "category": "/api/category",
+      "subCategory": "/api/subCategory",
       "item": "/api/item"
     }
   }
