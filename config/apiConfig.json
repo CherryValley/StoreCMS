@@ -4,7 +4,11 @@
     "port": 8080,
     "path": {
       "brand": "/api/brand",
-      "item": "/api/item"
+      "login": "/api/administrator/login",
+      "register": "/api/administrator",
+      "checkUserName": "/api/administrator/exist/account",
+      "checkCellphone": "/api/administrator/exist/cellphone",
+      "checkEmail": "/api/administrator/exist/email"
     }
   }
 }

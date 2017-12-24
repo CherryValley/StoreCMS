@@ -10,6 +10,9 @@ exports.CommonService = function(apiName) {
   this.getAll = function (pageNumber, callback) {
     serviceInvoke.get(this.host, this.port, this.path + '/' + pageNumber + '/' + this.pageSize, callback)
   };
+  this.get = function (param, callback) {
+    serviceInvoke.get(this.host, this.port, this.path + '/' + param, callback)
+  };
   this.add = function (data, callback) {
     serviceInvoke.post(data, this.host, this.port, this.path, callback);
   };

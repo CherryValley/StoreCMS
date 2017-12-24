@@ -2,6 +2,7 @@ $(document).ready(function () {
   setAlertBell();
   setActiveNav();
   setPaginationStatus();
+  addCommonEvent();
 });
 
 function setAlertBell() {
@@ -49,6 +50,11 @@ function showMessage(msg) {
   $('.alert-warning span:last').text(msg);
 }
 
+function hiddenMessage() {
+  $('.alert-warning').addClass('hidden');
+  $('.alert-warning span:last').text('');
+}
+
 function setPaginationStatus() {
   var currentPageNum = $('#hidden-currentPageNum').val();
   if(currentPageNum !== undefined){
@@ -73,6 +79,35 @@ function setPaginationStatus() {
   }
 }
 
+function addCommonEvent() {
+  $('li.logout').click(function () {
+    delCookie('loginUser');
+    location.href = '/';
+  });
+}
 function getLoginUser() {
   return 'johnny';
+}
+
+function setCookie(name,value) {
+  var days = 30;
+  var exp = new Date();
+  exp.setTime(exp.getTime() + days*24*60*60*1000);
+  document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+function getCookie(name) {
+  var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+  if(arr=document.cookie.match(reg))
+    return unescape(arr[2]);
+  else
+    return null;
+}
+
+function delCookie(name) {
+  var exp = new Date();
+  exp.setTime(exp.getTime() - 1);
+  var cval=getCookie(name);
+  if(cval!=null)
+    document.cookie= name + "="+cval+";expires="+exp.toGMTString();
 }

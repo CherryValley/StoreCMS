@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var login = require('./routes/login');
+var register = require('./routes/register');
 var index = require('./routes/index');
 var brand = require('./routes/brand');
 var category = require('./routes/category');
@@ -43,7 +44,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//登录拦截器
+app.use(function (req, res, next) {
+  var url = req.originalUrl;
+  if (url != '/' && url.indexOf('/register') < 0 && req.cookies['loginUser'] === undefined) {
+    return res.redirect("/");
+  }
+  next();
+});
+
 app.use('/', login);
+app.use('/register', register);
 app.use('/index', index);
 app.use('/brand', brand);
 app.use('/category', category);
