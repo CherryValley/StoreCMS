@@ -8,7 +8,9 @@
       "register": "/api/administrator",
       "checkUserName": "/api/administrator/exist/account",
       "checkCellphone": "/api/administrator/exist/cellphone",
-      "checkEmail": "/api/administrator/exist/email"
+      "checkEmail": "/api/administrator/exist/email",
+      "category": "/api/category",
+      "subCategory": "/api/subCategory"
     }
   }
 }
