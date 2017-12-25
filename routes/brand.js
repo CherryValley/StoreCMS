@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
       var prePaginationNum = pagingUtils.getPrePaginationNum(pageNumber);
       var nextPaginationNum = pagingUtils.getNextPaginationNum(pageNumber, result.content.totalCount);
       var renderData = {};
-      if(result.content.responseData.length <= 0){
+      if(result.content.responseData === null){
         renderData = {
           title: '品牌维护',
           totalCount: result.content.totalCount,

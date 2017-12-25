@@ -10,7 +10,12 @@
       "checkCellphone": "/api/administrator/exist/cellphone",
       "checkEmail": "/api/administrator/exist/email",
       "category": "/api/category",
-      "subCategory": "/api/subCategory"
+      "subCategory": "/api/subCategory",
+	    "item": "/api/item",
+      "color":"/api/color",
+      "size":"/api/size",
+      "material":"/api/material",
+      "itemSeries":"/api/itemSeries"
     }
   }
 }
