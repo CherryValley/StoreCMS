@@ -3,6 +3,7 @@ $(document).ready(function () {
   setActiveNav();
   setPaginationStatus();
   addCommonEvent();
+  showLoginUser();
 });
 
 function setAlertBell() {
@@ -85,8 +86,23 @@ function addCommonEvent() {
     location.href = '/';
   });
 }
+
+function showLoginUser() {
+  var cookie = getCookie('loginUser');
+  if(cookie !== null){
+    var loginUser = JSON.parse(cookie);
+    $('li.light-blue span.user-info>span').text(loginUser.administratorName);
+  }
+}
+
 function getLoginUser() {
-  return 'johnny';
+  var cookie = getCookie('loginUser');
+  if(cookie !== null){
+    var loginUser = JSON.parse(cookie);
+    return loginUser.account;
+  }
+
+  return 'unknown';
 }
 
 function setCookie(name,value) {

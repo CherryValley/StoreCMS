@@ -3,10 +3,11 @@ var qs = require('querystring');
 var util = require('util');
 
 exports.get = function(host, port, path, callback){
+  //URLEncoder.encode(fname, "utf-8");
   var options = {
     hostname: host,
     port: port,
-    path: path,
+    path: encodeURI(path),
     method: 'GET'
   };
 
@@ -28,7 +29,7 @@ exports.get = function(host, port, path, callback){
         'err': true,
         'code': '-1',
         'msg': '服务器系统异常。',
-        'detail': util.format('invoke service failed. statusCode:[%s], host:[%s], port:[%s], path:[%s], param:[%s]', res.statusCode, host, port, path, param)
+        'detail': util.format('invoke service failed. statusCode:[%s], host:[%s], port:[%s], path:[%s], param:[%s]', res.statusCode, host, port, path)
       });
     }
   });

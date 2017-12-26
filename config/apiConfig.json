@@ -15,7 +15,10 @@
       "color":"/api/color",
       "size":"/api/size",
       "material":"/api/material",
-      "itemSeries":"/api/itemSeries"
+      "itemSeries":"/api/itemSeries",
+      "province":"/api/province",
+      "checkProvinceName": "/api/province/exist",
+      "country":"/api/country"
     }
   }
 }
