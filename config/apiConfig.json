@@ -11,14 +11,16 @@
       "checkEmail": "/api/administrator/exist/email",
       "category": "/api/category",
       "subCategory": "/api/subCategory",
-	    "item": "/api/item",
+	  "item": "/api/item",
       "color":"/api/color",
       "size":"/api/size",
       "material":"/api/material",
       "itemSeries":"/api/itemSeries",
-      "province":"/api/province",
       "checkProvinceName": "/api/province/exist",
-      "country":"/api/country"
+      "province":"/api/province",
+      "country":"/api/country",
+      "expressCompany":"/api/expressCompany",
+      "city":"/api/city"
     }
   }
 }
