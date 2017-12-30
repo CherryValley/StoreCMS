@@ -1,10 +1,7 @@
 var express = require('express');
-var fs = require('fs');
 var commonService = require('../service/commonService');
 var pagingUtils = require('../common/pagingUtils');
-var multer = require('multer');
 var router = express.Router();
-var upload = multer({dest:'public/images/category/'});
 
 router.get('/', function(req, res, next) {
     var service = new commonService.CommonService('category');
@@ -125,30 +122,6 @@ router.delete('/', function (req, res, next) {
             });
         }
     });
-});
-
-router.post('/upload',upload.single('myfile'),function(req,res,next){
-    var file=req.file;
-    // console.log("名称：%s",file.originalname);
-    // console.log("mime：%s",file.mimetype);
-    //以下代码得到文件后缀
-    var name=file.originalname;
-    nameArray=name.split('');
-    var nameMime=[];
-    l=nameArray.pop();
-    nameMime.unshift(l);
-
-    while(nameArray.length!=0&&l!='.'){
-        l=nameArray.pop();
-        nameMime.unshift(l);
-    }
-//Mime是文件的后缀
-    Mime=nameMime.join('');
-    console.log(Mime);
-    res.send("done");
-//重命名文件 加上文件后缀
-    fs.renameSync('./upload/'+file.filename,'./upload/'+file.filename+Mime);
-
 });
 
 module.exports = router;
