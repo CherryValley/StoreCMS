@@ -10,52 +10,61 @@ router.get('/', function(req, res, next) {
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
-    if(result.err || !result.content.result){
-      res.render('province', {
-        title: '省份维护',
-        totalCount: 0,
-        paginationArray:[],
-        provinceList: []
-      });
-    }else{
-      var paginationArray = pagingUtils.getPaginationArray(pageNumber, result.content.totalCount);
-      var prePaginationNum = pagingUtils.getPrePaginationNum(pageNumber);
-      var nextPaginationNum = pagingUtils.getNextPaginationNum(pageNumber, result.content.totalCount);
-      var renderData = {};
-      if(result.content.responseData === null){
-        renderData = {
-          title: '省份维护',
-          totalCount: result.content.totalCount,
-          currentPageNum: pageNumber,
-          provinceList: result.content.responseData
-        }
-      }else{
-        if(prePaginationNum === 0){
-          renderData = {
-            title: '省份维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            nextPageNum: nextPaginationNum,
-            currentPageNum: pageNumber,
-            provinceList: result.content.responseData
-          }
-        }
-        if(nextPaginationNum === -1){
-          renderData = {
-            title: '省份维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            prePageNum: prePaginationNum,
-            currentPageNum: pageNumber,
-            provinceList: result.content.responseData
-          }
-        }
-      }
+    service.getAll(pageNumber, function (result) {
+        if(result.err || !result.content.result){
+            res.render('province', {
+                title: '省份维护',
+                totalCount: 0,
+                paginationArray:[],
+                provinceList: []
+            });
+        }else{
+            var paginationArray = pagingUtils.getPaginationArray(pageNumber, result.content.totalCount);
+            var prePaginationNum = pagingUtils.getPrePaginationNum(pageNumber);
+            var nextPaginationNum = pagingUtils.getNextPaginationNum(pageNumber, result.content.totalCount);
+            var renderData = {};
+            if(result.content.responseData === null){
+                renderData = {
+                    title: '省份维护',
+                    totalCount: result.content.totalCount,
+                    currentPageNum: pageNumber,
+                    provinceList: result.content.responseData
+                }
+            }else{
+                if(prePaginationNum > 0 && nextPaginationNum > 0){
+                    renderData = {
+                        title: '省份维护',
+                        totalCount: result.content.totalCount,
+                        paginationArray: paginationArray,
+                        prePageNum: prePaginationNum,
+                        nextPageNum: nextPaginationNum,
+                        currentPageNum: pageNumber,
+                        provinceList: result.content.responseData
+                    }
+                }else if(prePaginationNum === 0){
+                    renderData = {
+                        title: '省份维护',
+                        totalCount: result.content.totalCount,
+                        paginationArray: paginationArray,
+                        nextPageNum: nextPaginationNum,
+                        currentPageNum: pageNumber,
+                        provinceList: result.content.responseData
+                    }
+                }else {
+                    renderData = {
+                        title: '省份维护',
+                        totalCount: result.content.totalCount,
+                        paginationArray: paginationArray,
+                        prePageNum: prePaginationNum,
+                        currentPageNum: pageNumber,
+                        provinceList: result.content.responseData
+                    }
+                }
+            }
 
-      res.render('province', renderData);
-    }
-  });
+            res.render('province', renderData);
+        }
+    });
 });
 
 router.get('/countryList', function (req, res, next) {

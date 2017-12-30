@@ -31,7 +31,17 @@ router.get('/', function(req, res, next) {
                     categoryList: result.content.responseData
                 }
             }else{
-                if(prePaginationNum === 0){
+                if(prePaginationNum > 0 && nextPaginationNum > 0){
+                    renderData = {
+                        title: '商品一级分类维护',
+                        totalCount: result.content.totalCount,
+                        paginationArray: paginationArray,
+                        prePageNum: prePaginationNum,
+                        nextPageNum: nextPaginationNum,
+                        currentPageNum: pageNumber,
+                        categoryList: result.content.responseData
+                    }
+                }else if(prePaginationNum === 0){
                     renderData = {
                         title: '商品一级分类维护',
                         totalCount: result.content.totalCount,
@@ -40,8 +50,7 @@ router.get('/', function(req, res, next) {
                         currentPageNum: pageNumber,
                         categoryList: result.content.responseData
                     }
-                }
-                if(nextPaginationNum === -1){
+                }else {
                     renderData = {
                         title: '商品一级分类维护',
                         totalCount: result.content.totalCount,
@@ -52,7 +61,6 @@ router.get('/', function(req, res, next) {
                     }
                 }
             }
-
             res.render('category', renderData);
         }
     });

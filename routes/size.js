@@ -32,26 +32,35 @@ router.get('/', function(req, res, next) {
           sizeList: result.content.responseData
         }
       }else{
-        if(prePaginationNum === 0){
-          renderData = {
-            title: '商品尺码维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            nextPageNum: nextPaginationNum,
-            currentPageNum: pageNumber,
-            sizeList: result.content.responseData
+          if(prePaginationNum > 0 && nextPaginationNum > 0){
+              renderData = {
+                  title: '商品尺码维护',
+                  totalCount: result.content.totalCount,
+                  paginationArray: paginationArray,
+                  prePageNum: prePaginationNum,
+                  nextPageNum: nextPaginationNum,
+                  currentPageNum: pageNumber,
+                  sizeList: result.content.responseData
+              }
+          }else if(prePaginationNum === 0){
+              renderData = {
+                  title: '商品尺码维护',
+                  totalCount: result.content.totalCount,
+                  paginationArray: paginationArray,
+                  nextPageNum: nextPaginationNum,
+                  currentPageNum: pageNumber,
+                  sizeList: result.content.responseData
+              }
+          }else {
+              renderData = {
+                  title: '商品尺码维护',
+                  totalCount: result.content.totalCount,
+                  paginationArray: paginationArray,
+                  prePageNum: prePaginationNum,
+                  currentPageNum: pageNumber,
+                  sizeList: result.content.responseData
+              }
           }
-        }
-        if(nextPaginationNum === -1){
-          renderData = {
-            title: '商品尺码维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            prePageNum: prePaginationNum,
-            currentPageNum: pageNumber,
-            sizeList: result.content.responseData
-          }
-        }
       }
 
       res.render('size', renderData);

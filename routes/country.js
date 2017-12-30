@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
             var prePaginationNum = pagingUtils.getPrePaginationNum(pageNumber);
             var nextPaginationNum = pagingUtils.getNextPaginationNum(pageNumber, result.content.totalCount);
             var renderData = {};
-            if(result.content.responseData.length <= 0){
+            if(result.content.responseData === null){
                 renderData = {
                     title: '国家维护',
                     totalCount: result.content.totalCount,
@@ -35,7 +35,17 @@ router.get('/', function(req, res, next) {
                     countryList: result.content.responseData
                 }
             }else{
-                if(prePaginationNum === 0){
+                if(prePaginationNum > 0 && nextPaginationNum > 0){
+                    renderData = {
+                        title: '国家维护',
+                        totalCount: result.content.totalCount,
+                        paginationArray: paginationArray,
+                        prePageNum: prePaginationNum,
+                        nextPageNum: nextPaginationNum,
+                        currentPageNum: pageNumber,
+                        countryList: result.content.responseData
+                    }
+                }else if(prePaginationNum === 0){
                     renderData = {
                         title: '国家维护',
                         totalCount: result.content.totalCount,
@@ -44,8 +54,7 @@ router.get('/', function(req, res, next) {
                         currentPageNum: pageNumber,
                         countryList: result.content.responseData
                     }
-                }
-                if(nextPaginationNum === -1){
+                }else {
                     renderData = {
                         title: '国家维护',
                         totalCount: result.content.totalCount,
@@ -56,7 +65,6 @@ router.get('/', function(req, res, next) {
                     }
                 }
             }
-
             res.render('country', renderData);
         }
     });

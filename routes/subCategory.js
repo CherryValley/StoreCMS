@@ -34,7 +34,17 @@ router.get('/', function(req, res, next) {
                     subCategoryList: result.content.responseData
                 }
             }else{
-                if(prePaginationNum === 0){
+                if(prePaginationNum > 0 && nextPaginationNum > 0){
+                    renderData = {
+                        title: '商品二级分类维护',
+                        totalCount: result.content.totalCount,
+                        paginationArray: paginationArray,
+                        prePageNum: prePaginationNum,
+                        nextPageNum: nextPaginationNum,
+                        currentPageNum: pageNumber,
+                        subCategoryList: result.content.responseData
+                    }
+                }else if(prePaginationNum === 0){
                     renderData = {
                         title: '商品二级分类维护',
                         totalCount: result.content.totalCount,
@@ -43,8 +53,7 @@ router.get('/', function(req, res, next) {
                         currentPageNum: pageNumber,
                         subCategoryList: result.content.responseData
                     }
-                }
-                if(nextPaginationNum === -1){
+                }else {
                     renderData = {
                         title: '商品二级分类维护',
                         totalCount: result.content.totalCount,

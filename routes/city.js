@@ -31,7 +31,17 @@ router.get('/', function(req, res, next) {
                     cityList: result.content.responseData
                 }
             }else{
-                if(prePaginationNum === 0){
+                if(prePaginationNum > 0 && nextPaginationNum > 0){
+                    renderData = {
+                        title: '城市维护',
+                        totalCount: result.content.totalCount,
+                        paginationArray: paginationArray,
+                        prePageNum: prePaginationNum,
+                        nextPageNum: nextPaginationNum,
+                        currentPageNum: pageNumber,
+                        cityList: result.content.responseData
+                    }
+                }else if(prePaginationNum === 0){
                     renderData = {
                         title: '城市维护',
                         totalCount: result.content.totalCount,
@@ -40,8 +50,7 @@ router.get('/', function(req, res, next) {
                         currentPageNum: pageNumber,
                         cityList: result.content.responseData
                     }
-                }
-                if(nextPaginationNum === -1){
+                }else {
                     renderData = {
                         title: '城市维护',
                         totalCount: result.content.totalCount,
