@@ -11,7 +11,7 @@
       "checkEmail": "/api/administrator/exist/email",
       "category": "/api/category",
       "subCategory": "/api/subCategory",
-	    "item": "/api/item",
+      "item": "/api/item",
       "color":"/api/color",
       "size":"/api/size",
       "material":"/api/material",
@@ -20,7 +20,9 @@
       "province":"/api/province",
       "country":"/api/country",
       "expressCompany":"/api/expressCompany",
-      "city":"/api/city"
+      "city":"/api/city",
+      "administrator":"/api/administrator",
+      "checkAdministrator":"/api/administrator/exist/name"
     }
   }
 }
