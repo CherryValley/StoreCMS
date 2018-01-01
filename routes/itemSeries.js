@@ -68,6 +68,26 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/checkItemSeries', function (req, res, next) {
+  var service = new commonService.CommonService('checkItemSeriesName');
+  var parameter = req.query.itemSeriesName;
+
+  service.get(parameter, function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        exist: result.content.responseData
+      });
+    }
+  });
+});
+
 router.post('/', function (req, res, next) {
   var service = new commonService.CommonService('itemSeries');
   var data = {

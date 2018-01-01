@@ -137,13 +137,22 @@
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-3 control-label">商品材质中文</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" maxlength="15" v-model="materialNameCN">
+                    <input type="text" class="form-control" maxlength="15" v-model="materialNameCN" @blur="onMaterialCNBlur()">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputPassword3" class="col-sm-3 control-label">商品材质英文</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" maxlength="15" v-model="materialNameEN"/>
+                    <input type="text" class="form-control" maxlength="15" v-model="materialNameEN" @blur="onMaterialENBlur()"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-3 control-label"> </label>
+                  <div class="col-sm-9">
+                    <div class="alert alert-warning alert-dismissible hidden" role="alert">
+                      <strong>提示!</strong>
+                      <span></span>
+                    </div>
                   </div>
                 </div>
               </form>

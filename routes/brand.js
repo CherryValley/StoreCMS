@@ -70,6 +70,26 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/checkBrand', function (req, res, next) {
+  var service = new commonService.CommonService('checkBrandName');
+  var parameter = req.query.brandName;
+
+  service.get(parameter, function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        exist: result.content.responseData
+      });
+    }
+  });
+});
+
 router.post('/', function (req, res, next) {
   var service = new commonService.CommonService('brand');
   var data = {

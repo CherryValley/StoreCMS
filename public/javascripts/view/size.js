@@ -4,19 +4,49 @@ var app = new Vue({
     sizeID: '',
     sizeNameCN: '',
     sizeNameEN: '',
+    sizeNameCNValid: false,
+    sizeNameENValid: false,
     saveType: ''
   },
   computed: {
     enabledSave: function () {
-      return this.sizeNameCN.length > 0 && this.sizeNameEN.length > 0;
+      return this.sizeNameCN.length > 0 &&
+          this.sizeNameEN.length > 0 &&
+          this.sizeNameCNValid &&
+          this.sizeNameENValid;
     }
   },
   methods:{
+    checkSizeName: function (sizeName, lan) {
+      if($.trim(sizeName).length === 0){
+        return false;
+      }
+      $.ajax({
+        url: '/size/checkSize?sizeName='+sizeName,
+        type: 'GET',
+        success: function(res){
+          if(res.err){
+            lan === 'CN' ? app.$data.sizeNameCNValid = false : app.$data.sizeNameENValid = false;
+            showMessage(res.msg);
+          }else if(res.exist){
+            lan === 'CN' ? app.$data.sizeNameCNValid = false : app.$data.sizeNameENValid = false;
+            showMessage(sizeName + '已存在。');
+          }else{
+            lan === 'CN' ? app.$data.sizeNameCNValid = true : app.$data.sizeNameENValid = true;
+            hiddenMessage();
+          }
+        },
+        error: function(XMLHttpRequest, textStatus){
+          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+        }
+      });
+    },
     onAdd: function () {
       app.$data.saveType = 'add';
       app.$data.sizeID = '';
       app.$data.sizeNameCN = '';
       app.$data.sizeNameEN = '';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onChange: function (rowIndex) {
@@ -25,6 +55,7 @@ var app = new Vue({
       app.$data.sizeNameCN = $(row).find('td').eq(1).text();
       app.$data.sizeNameEN = $(row).find('td').eq(2).text();
       app.$data.saveType = 'change';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onDelete: function (sizeID, sizeName) {
@@ -48,6 +79,12 @@ var app = new Vue({
           });
         }
       });
+    },
+    onSizeCNBlur: function () {
+      app.checkSizeName(app.$data.sizeNameCN, 'CN');
+    },
+    onSizeENBlur: function () {
+      app.checkSizeName(app.$data.sizeNameEN, 'EN');
     },
     onSave: function () {
       var dataType = '';

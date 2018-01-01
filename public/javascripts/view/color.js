@@ -4,19 +4,49 @@ var app = new Vue({
     colorID: '',
     colorNameCN: '',
     colorNameEN: '',
+    colorNameCNValid: false,
+    colorNameENValid: false,
     saveType: ''
   },
   computed: {
     enabledSave: function () {
-      return this.colorNameCN.length > 0 && this.colorNameEN.length > 0;
+      return this.colorNameCN.length > 0
+          && this.colorNameEN.length > 0
+          && this.colorNameCNValid
+          && this.colorNameENValid;
     }
   },
   methods:{
+    checkColorName: function (colorName, lan) {
+      if($.trim(colorName).length === 0){
+        return false;
+      }
+      $.ajax({
+        url: '/color/checkColor?colorName='+colorName,
+        type: 'GET',
+        success: function(res){
+          if(res.err){
+            lan === 'CN' ? app.$data.colorNameCNValid = false : app.$data.colorNameENValid = false;
+            showMessage(res.msg);
+          }else if(res.exist){
+            lan === 'CN' ? app.$data.colorNameCNValid = false : app.$data.colorNameENValid = false;
+            showMessage(colorName + '已存在。');
+          }else{
+            lan === 'CN' ? app.$data.colorNameCNValid = true : app.$data.colorNameENValid = true;
+            hiddenMessage();
+          }
+        },
+        error: function(XMLHttpRequest, textStatus){
+          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+        }
+      });
+    },
     onAdd: function () {
       app.$data.saveType = 'add';
       app.$data.colorID = '';
       app.$data.colorNameCN = '';
       app.$data.colorNameEN = '';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onChange: function (rowIndex) {
@@ -25,6 +55,7 @@ var app = new Vue({
       app.$data.colorNameCN = $(row).find('td').eq(1).text();
       app.$data.colorNameEN = $(row).find('td').eq(2).text();
       app.$data.saveType = 'change';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onDelete: function (colorID, colorName) {
@@ -48,6 +79,12 @@ var app = new Vue({
           });
         }
       });
+    },
+    onColorCNBlur: function () {
+      app.checkColorName(app.$data.colorNameCN, 'CN');
+    },
+    onColorENBlur: function () {
+      app.checkColorName(app.$data.colorNameEN, 'EN');
     },
     onSave: function () {
       var dataType = '';

@@ -41,7 +41,7 @@ var app = new Vue({
             showMessage(res.msg);
           }else if(res.exist){
             lan === 'CN' ? app.$data.provinceNameCNValid = false : app.$data.provinceNameENValid = false;
-            showMessage(lan === 'CN' ? '省份中文已存在。' : '省份英文已存在。');
+            showMessage(provinceName + '已存在。');
           }else{
             lan === 'CN' ? app.$data.provinceNameCNValid = true : app.$data.provinceNameENValid = true;
             hiddenMessage();
