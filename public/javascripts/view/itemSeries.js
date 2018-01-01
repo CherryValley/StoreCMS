@@ -4,19 +4,49 @@ var app = new Vue({
     seriesID: '',
     itemSeriesNameCN: '',
     itemSeriesNameEN: '',
+    itemSeriesNameCNValid: false,
+    itemSeriesNameENValid: false,
     saveType: ''
   },
   computed: {
     enabledSave: function () {
-      return this.itemSeriesNameCN.length > 0 && this.itemSeriesNameEN.length > 0;
+      return this.itemSeriesNameCN.length > 0
+          && this.itemSeriesNameEN.length > 0
+          && this.itemSeriesNameCNValid > 0
+          && this.itemSeriesNameENValid > 0;
     }
   },
   methods:{
+    checkItemSeriesName: function (itemSeriesName, lan) {
+      if($.trim(itemSeriesName).length === 0){
+        return false;
+      }
+      $.ajax({
+        url: '/itemSeries/checkItemSeries?itemSeriesName='+itemSeriesName,
+        type: 'GET',
+        success: function(res){
+          if(res.err){
+            lan === 'CN' ? app.$data.itemSeriesNameCNValid = false : app.$data.itemSeriesNameENValid = false;
+            showMessage(res.msg);
+          }else if(res.exist){
+            lan === 'CN' ? app.$data.itemSeriesNameCNValid = false : app.$data.itemSeriesNameENValid = false;
+            showMessage(itemSeriesName + '已存在。');
+          }else{
+            lan === 'CN' ? app.$data.itemSeriesNameCNValid = true : app.$data.itemSeriesNameENValid = true;
+            hiddenMessage();
+          }
+        },
+        error: function(XMLHttpRequest, textStatus){
+          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+        }
+      });
+    },
     onAdd: function () {
       app.$data.saveType = 'add';
       app.$data.seriesID = '';
       app.$data.itemSeriesNameCN = '';
       app.$data.itemSeriesNameEN = '';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onChange: function (rowIndex) {
@@ -25,6 +55,7 @@ var app = new Vue({
       app.$data.itemSeriesNameCN = $(row).find('td').eq(1).text();
       app.$data.itemSeriesNameEN = $(row).find('td').eq(2).text();
       app.$data.saveType = 'change';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onDelete: function (seriesID, itemSeriesName) {
@@ -48,6 +79,12 @@ var app = new Vue({
           });
         }
       });
+    },
+    onItemSeriesCNBlur: function () {
+      app.checkItemSeriesName(app.$data.itemSeriesNameCN, 'CN');
+    },
+    onItemSeriesENBlur: function () {
+      app.checkItemSeriesName(app.$data.itemSeriesNameEN, 'EN');
     },
     onSave: function () {
       var dataType = '';
