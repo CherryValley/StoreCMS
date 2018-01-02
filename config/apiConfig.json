@@ -28,7 +28,8 @@
       "checkProvinceName": "/api/province/exist",
       "country":"/api/country",
       "expressCompany":"/api/expressCompany",
-      "city":"/api/city"
+      "city":"/api/city",
+      "systemLog":"/api/systemLog"
     }
   }
 }
