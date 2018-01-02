@@ -4,14 +4,43 @@ var app = new Vue({
         companyID: '',
         companyCN: '',
         companyEN: '',
+        companyNameCNValid:false,
+        companyNameENValid:false,
         saveType: ''
     },
     computed: {
         enabledSave: function () {
-            return this.companyCN.length > 0 && this.companyEN.length > 0;
+            return this.companyCN.length > 0
+                && this.companyEN.length > 0
+                && this.companyNameCNValid
+                && this.companyNameENValid;
         }
     },
     methods:{
+        checkCompanyName: function (companyName, lan) {
+            if($.trim(companyName).length === 0){
+                return false;
+            }
+            $.ajax({
+                url: '/company/checkCompany?companyName='+companyName,
+                type: 'GET',
+                success: function(res){
+                    if(res.err){
+                        lan === 'CN' ? app.$data.companyNameCNValid = false : app.$data.companyNameENValid = false;
+                        showMessage(res.msg);
+                    }else if(res.exist){
+                        lan === 'CN' ? app.$data.companyNameCNValid = false : app.$data.companyNameENValid = false;
+                        showMessage(companyName + '已存在。');
+                    }else{
+                        lan === 'CN' ? app.$data.companyNameCNValid = true : app.$data.companyNameENValid = true;
+                        hiddenMessage();
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus){
+                    showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+                }
+            });
+        },
         onUpload: function () {
             app.$data.companyID = $(row).find('td').eq(0).text();
             app.$data.companyCN = $(row).find('td').eq(1).text();
@@ -53,6 +82,12 @@ var app = new Vue({
                     });
                 }
             });
+        },
+        onCompanyCNBlur: function () {
+            app.checkCompanyName(app.$data.companyCN, 'CN');
+        },
+        onCompanyENBlur: function () {
+            app.checkCompanyName(app.$data.companyEN, 'EN');
         },
         onSave: function () {
             var dataType = '';
