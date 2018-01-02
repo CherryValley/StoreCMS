@@ -37,7 +37,7 @@ var app = new Vue({
                 return false;
             }
             $.ajax({
-                url: '/city/checkCityName?cityName=\"' + cityName + '\"',
+                url: '/city/checkCity?cityName= + cityName',
                 type: 'GET',
                 success: function(res){
                     if(res.err){

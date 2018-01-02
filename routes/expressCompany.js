@@ -1,4 +1,3 @@
-
 var express = require('express');
 var fs = require('fs');
 var commonService = require('../service/commonService');
@@ -67,6 +66,26 @@ router.get('/', function(req, res, next) {
             }
 
             res.render('expressCompany', renderData);
+        }
+    });
+});
+
+router.get('/checkCompany', function (req, res, next) {
+    var service = new commonService.CommonService('checkCompanyName');
+    var parameter = req.query.companyName;
+
+    service.get(parameter, function (result) {
+        if(result.err || !result.content.result){
+            res.json({
+                err: true,
+                msg: result.msg
+            });
+        }else{
+            res.json({
+                err: false,
+                msg: result.content.responseMessage,
+                exist: result.content.responseData
+            });
         }
     });
 });
