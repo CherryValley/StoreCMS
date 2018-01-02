@@ -15,3 +15,10 @@
 .form-control-static{
   margin-top: -4px;
 }
+.table-col-ellipsis{
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}

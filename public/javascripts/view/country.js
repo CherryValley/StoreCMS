@@ -4,19 +4,49 @@ var app = new Vue({
         countryID: '',
         countryNameCN: '',
         countryNameEN: '',
+        countryNameCNValid:false,
+        countryNameENValid:false,
         saveType: ''
     },
     computed: {
         enabledSave: function () {
-            return this.countryNameCN.length > 0 && this.countryNameEN.length > 0;
+            return this.countryNameCN.length > 0
+                && this.countryNameEN.length > 0
+                && this.countryNameCNValid &&
+                this.countryNameENValid;
+
         }
     },
     methods:{
-        onUpload: function () {
-            app.$data.countryID = $(row).find('td').eq(0).text();
-            app.$data.countryNameCN = $(row).find('td').eq(1).text();
-            app.$data.countryNameEN = $(row).find('td').eq(2).text();
+        checkCountryName: function (countryName, lan) {
+            if($.trim(countryName).length === 0){
+                return false;
+            }
+            $.ajax({
+                url: '/country/checkCountry?countryName='+countryName,
+                type: 'GET',
+                success: function(res){
+                    if(res.err){
+                        lan === 'CN' ? app.$data.countryNameCNValid = false : app.$data.countryNameENValid = false;
+                        showMessage(res.msg);
+                    }else if(res.exist){
+                        lan === 'CN' ? app.$data.countryNameCNValid = false : app.$data.countryNameENValid = false;
+                        showMessage(countryName + '已存在。');
+                    }else{
+                        lan === 'CN' ? app.$data.countryNameCNValid = true : app.$data.countryNameENValid = true;
+                        hiddenMessage();
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus){
+                    showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+                }
+            });
         },
+        // onUpload: function () {
+        //     app.$data.countryID = $(row).find('td').eq(0).text();
+        //     app.$data.countryNameCN = $(row).find('td').eq(1).text();
+        //     app.$data.countryNameEN = $(row).find('td').eq(2).text();
+        // },
         onAdd: function () {
             app.$data.saveType = 'add';
             app.$data.countryID = '';
@@ -53,6 +83,12 @@ var app = new Vue({
                     });
                 }
             });
+        },
+        onCountryCNBlur: function () {
+            app.checkCountryName(app.$data.countryNameCN, 'CN');
+        },
+        onCountryENBlur: function () {
+            app.checkCountryName(app.$data.countryNameEN, 'EN');
         },
         onSave: function () {
             var dataType = '';
