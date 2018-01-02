@@ -143,7 +143,7 @@ var app = new Vue({
   },
   mounted: function () {
     $.ajax({
-      url: '/province/countryList',
+      url: '/country/all',
       type: 'GET',
       success: function(res){
         if(res.err){

@@ -67,30 +67,6 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/countryList', function (req, res, next) {
-  var service = new commonService.CommonService('country');
-  var pageNumber = req.query.page;
-  if(pageNumber === undefined){
-    pageNumber = 1;
-  }
-
-  service.getAll(pageNumber, function (result) {
-    if(result.err || !result.content.result){
-      res.json({
-        err: true,
-        msg: result.msg
-      });
-    }else{
-      res.json({
-        err: false,
-        msg: result.content.responseMessage,
-        countryList: result.content.responseData
-      });
-    }
-  });
-
-});
-
 router.get('/checkProvince', function (req, res, next) {
   var service = new commonService.CommonService('checkProvinceName');
   var parameter = req.query.provinceName;
@@ -106,6 +82,25 @@ router.get('/checkProvince', function (req, res, next) {
         err: false,
         msg: result.content.responseMessage,
         exist: result.content.responseData
+      });
+    }
+  });
+});
+
+router.get('/provinceForCountry', function (req, res, next) {
+  var service = new commonService.CommonService('provinceForCountry');
+  var parameter = req.query.countryID;
+
+  service.get(parameter, function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        provinceList: result.content.responseData
       });
     }
   });

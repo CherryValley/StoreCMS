@@ -25,11 +25,17 @@
       "itemSeries":"/api/itemSeries",
       "checkItemSeriesName": "/api/itemSeries/exist",
       "province":"/api/province",
+      "provinceForCountry":"/api/province/forCountry",
       "checkProvinceName": "/api/province/exist",
       "country":"/api/country",
+      "checkCountryName": "/api/country/exist",
       "expressCompany":"/api/expressCompany",
+      "checkCompanyName": "/api/expressCompany/exist",
       "city":"/api/city",
-      "systemLog":"/api/systemLog"
+      "checkCityName": "/api/city/exist",
+      "systemLog":"/api/systemLog",
+      "administrator":"/api/administrator",
+      "checkAdministrator":"/api/administrator/exist/name"
     }
   }
 }
