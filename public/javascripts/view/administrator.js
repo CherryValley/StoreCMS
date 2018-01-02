@@ -25,44 +25,17 @@ var app = new Vue({
     },
     computed: {
         enabledSave: function () {
-            if(typeof (this.selectedCustomerRole) === 'string' && typeof (this.selectedStatus) === 'string'){
-                return this.selectedCustomerRole.length > 0
-                    && this.selectedStatus.length > 0
-                    && this.administratorName.length > 0
-                    && this.administratorNameValid;
-            }else{
-                return this.selectedCustomerRole > 0
-                    && this.selectedStatus > 0
-                    && this.administratorName.length > 0
-                    && this.administratorNameValid;
-            }
+            return this.administratorID.length > 0
+                && this.administratorName.length > 0
+                && this.selectedCustomerRole.length > 0
+                && this.selectedStatus.length > 0
+                && this.account.length > 0
+                && this.cellphone.length > 0
+                && this.email.length > 0;
+                // && this.brandNameENValid > 0;
         }
     },
     methods:{
-        checkAdministratorName: function (administratorName, lan) {
-            if($.trim(administratorName).length === 0){
-                return false;
-            }
-            $.ajax({
-                url: '/administrator/checkAdministrator?administratorName='+administratorName,
-                type: 'GET',
-                success: function(res){
-                    if(res.err){
-                        lan === 'CN' ? app.$data.administratorNameValid = false : app.$data.administratorNameENValid = false;
-                        showMessage(res.msg);
-                    }else if(res.exist){
-                        lan === 'CN' ? app.$data.administratorNameCNValid = false : app.$data.administratorNameENValid = false;
-                        showMessage(lan === 'CN' ? '省份中文已存在。' : '省份英文已存在。');
-                    }else{
-                        lan === 'CN' ? app.$data.administratorNameCNValid = true : app.$data.administratorNameENValid = true;
-                        hiddenMessage();
-                    }
-                },
-                error: function(XMLHttpRequest, textStatus){
-                    showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-                }
-            });
-        },
         onChange: function (rowIndex) {
             var row = $('#administrator-list tbody tr').eq(rowIndex);
             app.$data.administratorID = $(row).find('td').eq(0).text();
@@ -70,10 +43,8 @@ var app = new Vue({
             app.$data.account = $(row).find('td').eq(2).text();
             app.$data.cellphone = $(row).find('td').eq(3).text();
             app.$data.email = $(row).find('td').eq(4).text();
-            // app.$data.selectedCustomerRole = $(row).find('td').eq(5).find('input').val();
             app.$data.selectedCustomerRole = $(row).find('td').eq(5).text();
             app.$data.selectedStatus = $(row).find('td').eq(6).text();
-            // app.$data.selectedStatus = $(row).find('td').eq(6).find('input').val();
             app.$data.saveType = 'change';
             hiddenMessage();
             $('#myModal').modal('show');
@@ -100,26 +71,6 @@ var app = new Vue({
                 }
             });
         },
-        // matchCustomerRole: function (selectedCustomerRole) {
-        //     switch(selectedCustomerRole){
-        //         case "":
-        //             selectedCustomerRole = "请选择状态";
-        //             $().
-        //             break;
-        //         case "修改权限":
-        //             selectedCustomerRole = "修改权限";
-        //             break;
-        //         case "最高权限":
-        //             selectedCustomerRole = "最高权限";
-        //             break;
-        //         case "查询权限":
-        //
-        //             break;
-        //     }
-        // },
-        // onadministratorBlur: function () {
-        //     app.checkAdministratorName(app.$data.administratorName, 'CN');
-        // },
         onSave: function () {
             var dataType = '';
             var saveData = null;
@@ -175,39 +126,5 @@ var app = new Vue({
                 showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
             }
         });
-
-        // customerRoleList
-        //  $.ajax({
-        //             url: '/administrator/customerRoleList',
-        //             type: 'GET',
-        //             success: function(res){
-        //                 if(res.err){
-        //                     alertMessage(res.msg);
-        //                     //showMessage(res.msg);
-        //                 }else{
-        //                     app.$data.administratorList = res.administratorList
-        //                 }
-        //             },
-        //             error: function(XMLHttpRequest, textStatus){
-        //                 showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        //             }
-        //         });
-
-        // statusList
-        // $.ajax({
-        //     url: '/administrator/statusList',
-        //     type: 'GET',
-        //     success: function(res){
-        //         if(res.err){
-        //             alertMessage(res.msg);
-        //             //showMessage(res.msg);
-        //         }else{
-        //             app.$data.administratorList = res.administratorList
-        //         }
-        //     },
-        //     error: function(XMLHttpRequest, textStatus){
-        //         showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        //     }
-        // });
     }
 });
