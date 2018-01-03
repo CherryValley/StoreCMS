@@ -35,6 +35,7 @@
       "checkCityName": "/api/city/exist",
       "systemLog":"/api/systemLog",
       "administrator":"/api/administrator",
+      "administratorApprove":"/api/administrator/approve",
       "checkAdministrator":"/api/administrator/exist/name"
     }
   }
