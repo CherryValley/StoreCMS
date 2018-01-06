@@ -362,11 +362,11 @@ span.jFiler-icon-file.f-audio:after {
     margin-top: 20px;
 }
 
-.jFiler-items-grid .jFiler-item-thumb-image.fi-loading {
-    background: url('../images/53e3489f99504dc3a1b42abf981bed7f.gif') no-repeat center;
-    width: 100%;
-    height: 100%;
-}
+/*.jFiler-items-grid .jFiler-item-thumb-image.fi-loading {*/
+    /*background: url('../images/53e3489f99504dc3a1b42abf981bed7f.gif') no-repeat center;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+/*}*/
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-info {
     position: absolute;

@@ -47,6 +47,7 @@ var app = new Vue({
       app.$data.countryID = '';
       app.$data.countryNameCN = '';
       app.$data.countryNameEN = '';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onChange: function (rowIndex) {
@@ -55,6 +56,7 @@ var app = new Vue({
       app.$data.countryNameCN = $(row).find('td').eq(1).text();
       app.$data.countryNameEN = $(row).find('td').eq(2).text();
       app.$data.saveType = 'change';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onDelete: function (countryID, countryName) {

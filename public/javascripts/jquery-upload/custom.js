@@ -5,7 +5,7 @@ $(document).ready(function(){
             limit: null,
             templates: {
                 box: '<ul class="jFiler-items-list jFiler-items-grid"></ul>',
-                item: '<li class="jFiler-item" style="width: 49%">\
+                item: '<li class="jFiler-item" style="width: 100%">\
                             <div class="jFiler-item-container">\
                                 <div class="jFiler-item-inner">\
                                     <div class="jFiler-item-thumb">\
@@ -87,7 +87,7 @@ $(document).ready(function(){
             onRemove: function(itemEl, file, id, listEl, boxEl, newInputEl, inputEl){
                 var file = file.name;
                 $.post('./php/remove_file.php', {file: file});
-            },
+            }
         };
     
     //Run PrettyPrint
@@ -153,7 +153,7 @@ $(document).ready(function(){
                 list: '.jFiler-items-list',
                 item: '.jFiler-item',
                 progressBar: '.bar',
-                remove: '.jFiler-item-trash-action',
+                remove: '.jFiler-item-trash-action'
             }
         },
         dragDrop: filer_default_opts.dragDrop,
@@ -171,6 +171,8 @@ $(document).ready(function(){
     });
 
     $('#demo-fileInput-4').filer({
+        limit: 1,
+        extensions: ['jpg', 'jpeg', 'png'],
         changeInput: '<div class="jFiler-input-dragDrop"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-folder"></i></div><div class="jFiler-input-text"><h3>Click on this box</h3> <span style="display:inline-block; margin: 15px 0">or</span></div><a class="jFiler-input-choose-btn blue-light">Browse Files</a></div></div>',
         showThumbs: true,
         theme: "dragdropbox",

@@ -4,7 +4,21 @@ var commonService = require('../service/commonService');
 var pagingUtils = require('../common/pagingUtils');
 var multer = require('multer');
 var router = express.Router();
-var upload = multer({dest:'public/images/brand/'});
+//var upload = multer({ dest: 'public/images/brand/' });
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb){
+    //文件上传成功后会放入public下的upload文件夹
+    cb(null, './public/images/brand')
+  },
+  filename: function (req, file, cb){
+    //设置文件的名字为其原本的名字，也可以添加其他字符，来区别相同文件，例如file.originalname+new Date().getTime();利用时间来区分
+    cb(null, file.originalname)
+  }
+});
+var upload = multer({
+  storage: storage
+});
 
 router.get('/', function(req, res, next) {
   var service = new commonService.CommonService('brand');
@@ -95,6 +109,7 @@ router.post('/', function (req, res, next) {
   var data = {
     brandCN: req.body.brandCN,
     brandEN: req.body.brandEN,
+    brandImageUrl: req.body.brandImageUrl,
     loginUser: req.body.loginUser
   };
 
@@ -156,27 +171,15 @@ router.delete('/', function (req, res, next) {
   });
 });
 
-router.post('/upload',upload.single('myfile'),function(req,res,next){
-  var file=req.file;
-  // console.log("名称：%s",file.originalname);
-  // console.log("mime：%s",file.mimetype);
-  //以下代码得到文件后缀
-  var name=file.originalname;
-  nameArray=name.split('');
-  var nameMime=[];
-  l=nameArray.pop();
-  nameMime.unshift(l);
-
-  while(nameArray.length!=0&&l!='.'){
-    l=nameArray.pop();
-    nameMime.unshift(l);
-  }
-//Mime是文件的后缀
-  Mime=nameMime.join('');
-  console.log(Mime);
-  res.send("done");
-//重命名文件 加上文件后缀
-  fs.renameSync('./upload/'+file.filename,'./upload/'+file.filename+Mime);
+router.post('/imageUpload',  upload.single('file'), function(req,res,next){
+//拼接文件上传后的网络路径，
+  var url = 'http://' + req.headers.host + '/images/brand/' + req.file.originalname;
+  //将其发回客户端
+  res.json({
+    err : false,
+    imageUrl : url
+  });
+  res.end();
 
 });
 

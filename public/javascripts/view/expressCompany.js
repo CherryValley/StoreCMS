@@ -51,6 +51,7 @@ var app = new Vue({
       app.$data.companyID = '';
       app.$data.companyCN = '';
       app.$data.companyEN = '';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onChange: function (rowIndex) {
@@ -59,6 +60,7 @@ var app = new Vue({
       app.$data.companyCN = $(row).find('td').eq(1).text();
       app.$data.companyEN = $(row).find('td').eq(2).text();
       app.$data.saveType = 'change';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onDelete: function (companyID, companyName) {

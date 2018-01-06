@@ -51,6 +51,7 @@ var app = new Vue({
       app.$data.categoryID = '';
       app.$data.categoryNameCN = '';
       app.$data.categoryNameEN = '';
+      hiddenMessage();
       $('#myModal').modal('show');
     },
     onChange: function (rowIndex) {
