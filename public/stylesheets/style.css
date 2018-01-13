@@ -31,3 +31,20 @@
 .brand-upd-image img{
   height: 160px;
 }
+.page-body{
+  padding: 15px;
+}
+.page-body .row{
+  height: 50px;
+}
+.page-body .control-label{
+  margin-top: 3px;
+  text-align: right;
+}
+.page-body .form-control-static{
+  margin-top: -2px;
+}
+.text-number{
+  ime-mode: disabled;
+  text-align: right;
+}

@@ -15,6 +15,9 @@ function setAlertBell() {
 
 function setActiveNav() {
   var pathname = window.location.pathname;
+  if(pathname.indexOf('addItem') >= 0 || pathname.indexOf('changeItem') >= 0 || pathname.indexOf('viewItem') >= 0){
+    pathname = '/item';
+  }
   $('.nav-list li.active').removeClass('active');
   $('.nav-list li.open').removeClass('open').removeClass('active');
   var element = $('.nav-list a[href="' + pathname + '"]');

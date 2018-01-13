@@ -14,8 +14,6 @@
       "checkCategoryName": "/api/category/exist",
       "subCategory": "/api/subCategory",
       "checkSubCategoryName": "/api/subCategory/exist",
-	    "item": "/api/item",
-      "checkItemName": "/api/item/exist",
       "color":"/api/color",
       "checkColorName": "/api/color/exist",
       "size":"/api/size",
@@ -36,7 +34,9 @@
       "systemLog":"/api/systemLog",
       "administrator":"/api/administrator",
       "administratorApprove":"/api/administrator/approve",
-      "checkAdministrator":"/api/administrator/exist/name"
+      "checkAdministrator":"/api/administrator/exist/name",
+      "item":"/api/item",
+      "checkItemName":"/api/item/exist"
     }
   }
 }
