@@ -62,7 +62,7 @@ var app = new Vue({
       var src=file[0].name;
       var formart=src.split(".")[1];
       if(formart !== 'jpg' && formart !== 'png'){
-        showMessage('文件格式不正确，仅仅支持jpg和png格式的图片。');
+        showMessage('文件格式不正确，仅支持jpg和png格式的图片。');
         return false;
       }
       $.ajax({

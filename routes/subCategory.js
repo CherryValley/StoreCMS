@@ -2,18 +2,16 @@ var express = require('express');
 var fs = require('fs');
 var commonService = require('../service/commonService');
 var pagingUtils = require('../common/pagingUtils');
-var multer = require('multer');
 var router = express.Router();
-var upload = multer({dest:'public/images/subCategory/'});
 
 router.get('/', function(req, res, next) {
-    var service = new commonService.CommonService('subCategory');
+    var service = new commonService.commonInvoke('subCategory');
     var pageNumber = req.query.page;
     if(pageNumber === undefined){
         pageNumber = 1;
     }
 
-    service.getAll(pageNumber, function (result) {
+    service.getPageData(pageNumber, function (result) {
         if(result.err || !result.content.result){
             res.render('subCategory', {
                 title: '商品二级分类维护',
@@ -70,8 +68,27 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/all', function (req, res, next) {
+  var service = new commonService.commonInvoke('subCategory');
+
+  service.getAll(function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        subCategoryList: result.content.responseData
+      });
+    }
+  });
+});
+
 router.get('/checkSubCategory', function (req, res, next) {
-  var service = new commonService.CommonService('checkSubCategoryName');
+  var service = new commonService.commonInvoke('checkSubCategoryName');
   var parameter = req.query.subCategoryName;
 
   service.get(parameter, function (result) {
@@ -91,7 +108,7 @@ router.get('/checkSubCategory', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    var service = new commonService.CommonService('subCategory');
+    var service = new commonService.commonInvoke('subCategory');
     var data = {
         subCategoryCN: req.body.subCategoryCN,
         subCategoryEN: req.body.subCategoryEN,
@@ -114,7 +131,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-    var service = new commonService.CommonService('subCategory');
+    var service = new commonService.commonInvoke('subCategory');
     var data = {
         subCategoryID: req.body.subCategoryID,
         subCategoryCN: req.body.subCategoryCN,
@@ -138,7 +155,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-    var service = new commonService.CommonService('subCategory');
+    var service = new commonService.commonInvoke('subCategory');
     var subCategoryID = req.query.subCategoryID;
 
     service.delete(subCategoryID, function (result) {
@@ -154,30 +171,6 @@ router.delete('/', function (req, res, next) {
             });
         }
     });
-});
-
-router.post('/upload',upload.single('myfile'),function(req,res,next){
-    var file=req.file;
-    // console.log("名称：%s",file.originalname);
-    // console.log("mime：%s",file.mimetype);
-    //以下代码得到文件后缀
-    var name=file.originalname;
-    nameArray=name.split('');
-    var nameMime=[];
-    l=nameArray.pop();
-    nameMime.unshift(l);
-
-    while(nameArray.length!=0&&l!='.'){
-        l=nameArray.pop();
-        nameMime.unshift(l);
-    }
-//Mime是文件的后缀
-    Mime=nameMime.join('');
-    console.log(Mime);
-    res.send("done");
-//重命名文件 加上文件后缀
-    fs.renameSync('./upload/'+file.filename,'./upload/'+file.filename+Mime);
-
 });
 
 module.exports = router;

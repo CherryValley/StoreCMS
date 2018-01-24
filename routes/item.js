@@ -1,71 +1,76 @@
 var express = require('express');
 var commonService = require('../service/commonService');
-var pagingUtils = require('../common/pagingUtils');
+var fs= require("fs");
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('item');
+  var service = new commonService.commonInvoke('item');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
-    if(result.err || !result.content.result){
-      res.render('item', {
-        title: '商品维护',
-        totalCount: 0,
-        paginationArray:[],
-        itemList: []
+  service.getPageData(pageNumber, function (result) {
+    var renderData = commonService.buildRenderData('商品维护', pageNumber, result);
+    res.render('item', renderData);
+  });
+});
+
+router.delete('/', function (req, res, next) {
+  var itemService = new commonService.commonInvoke('item');
+  var imageService = new commonService.commonInvoke('image');
+  var itemID = req.query.itemID;
+  var imageList = [];
+  var deleteImageError = [];
+  imageService.get(itemID + '/I', function (result) {
+    if(result.err){
+      res.json({
+        err: true,
+        msg: result.msg
       });
     }else{
-      var paginationArray = pagingUtils.getPaginationArray(pageNumber, result.content.totalCount);
-      var prePaginationNum = pagingUtils.getPrePaginationNum(pageNumber);
-      var nextPaginationNum = pagingUtils.getNextPaginationNum(pageNumber, result.content.totalCount);
-      var renderData = {};
-      if(result.content.responseData === null){
-        renderData = {
-          title: '商品维护',
-          totalCount: result.content.totalCount,
-          currentPageNum: pageNumber,
-          itemList: result.content.responseData
-        }
-      }else{
-        if(prePaginationNum > 0 && nextPaginationNum > 0){
-          renderData = {
-            title: '商品维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            prePageNum: prePaginationNum,
-            nextPageNum: nextPaginationNum,
-            currentPageNum: pageNumber,
-            itemList: result.content.responseData
-          }
-        }else if(prePaginationNum === 0){
-          renderData = {
-            title: '商品维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            nextPageNum: nextPaginationNum,
-            currentPageNum: pageNumber,
-            itemList: result.content.responseData
-          }
-        }else {
-          renderData = {
-            title: 'item',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            prePageNum: prePaginationNum,
-            currentPageNum: pageNumber,
-            itemList: result.content.responseData
-          }
-        }
-      }
+      imageList = result.content.responseData;
 
-      res.render('item', renderData);
+      //./public/images/item
+
+
+
+
+      itemService.delete(itemID, function (result) {
+        if(result.err){
+          res.json({
+            err: true,
+            msg: result.msg
+          });
+        }else{
+          imageService.delete(itemID + '/I', function (result) {
+            if(result.err){
+              res.json({
+                err: true,
+                msg: result.msg
+              });
+            }else{
+              imageList.forEach(function(image,index){
+                var imagePath = './public/images/item/' + image.imageSrc.substring(image.imageSrc.lastIndexOf('/') + 1);
+                fs.unlink(imagePath, function(err){
+                  if(err){
+                    deleteImageError.push(imagePath);
+                  }
+                })
+              });
+              res.json({
+                err: false,
+                msg: result.msg
+              });
+            }
+          });
+        }
+      });
     }
   });
+
+
 });
 
 module.exports = router;

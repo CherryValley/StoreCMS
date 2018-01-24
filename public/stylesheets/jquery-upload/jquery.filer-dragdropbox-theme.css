@@ -10,8 +10,8 @@
 -------------------------*/
 .jFiler-input-dragDrop {
     display: block;
-    margin: 0 auto 25px auto;
-    padding: 25px;
+    /*margin: 0 auto 25px auto;*/
+    padding: 15px;
     color: #8d9499;
     color: #97A1A8;
     background: #fff;

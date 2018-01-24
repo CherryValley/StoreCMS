@@ -5,13 +5,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('systemLog');
+  var service = new commonService.commonInvoke('systemLog');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('province', {
         title: '系统日志信息',
@@ -69,7 +69,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('systemLog');
+  var service = new commonService.commonInvoke('systemLog');
   var data = {
     logID: req.body.logID,
     status: req.body.status,

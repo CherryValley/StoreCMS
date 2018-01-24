@@ -36,7 +36,10 @@
       "administratorApprove":"/api/administrator/approve",
       "checkAdministrator":"/api/administrator/exist/name",
       "item":"/api/item",
-      "checkItemName":"/api/item/exist"
+      "checkItemCode":"/api/item/exist",
+      "checkItemName":"/api/item/exist",
+      "image":"/api/image",
+      "imageList":"/api/image/list"
     }
   }
 }

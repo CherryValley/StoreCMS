@@ -4,13 +4,13 @@ var pagingUtils = require('../common/pagingUtils');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('province');
+  var service = new commonService.commonInvoke('province');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('province', {
         title: '省份维护',
@@ -68,7 +68,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/checkProvince', function (req, res, next) {
-  var service = new commonService.CommonService('checkProvinceName');
+  var service = new commonService.commonInvoke('checkProvinceName');
   var parameter = req.query.provinceName;
 
   service.get(parameter, function (result) {
@@ -88,7 +88,7 @@ router.get('/checkProvince', function (req, res, next) {
 });
 
 router.get('/provinceForCountry', function (req, res, next) {
-  var service = new commonService.CommonService('provinceForCountry');
+  var service = new commonService.commonInvoke('provinceForCountry');
   var parameter = req.query.countryID;
 
   service.get(parameter, function (result) {
@@ -107,7 +107,7 @@ router.get('/provinceForCountry', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('province');
+  var service = new commonService.commonInvoke('province');
   var data = {
     countryID: req.body.countryID,
     provinceNameCN: req.body.provinceNameCN,
@@ -131,7 +131,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('province');
+  var service = new commonService.commonInvoke('province');
   var data = {
     provinceID: req.body.provinceID,
     countryID: req.body.countryID,
@@ -156,7 +156,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('province');
+  var service = new commonService.commonInvoke('province');
   var provinceID = req.query.provinceID;
 
   service.delete(provinceID, function (result) {

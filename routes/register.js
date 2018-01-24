@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/checkUserName', function(req, res, next) {
-  var service = new commonService.CommonService('checkUserName');
+  var service = new commonService.commonInvoke('checkUserName');
   var param = '/' + req.query.userName;
 
   service.get(param, function (result) {
@@ -27,7 +27,7 @@ router.get('/checkUserName', function(req, res, next) {
 });
 
 router.get('/checkCellphone', function(req, res, next) {
-  var service = new commonService.CommonService('checkCellphone');
+  var service = new commonService.commonInvoke('checkCellphone');
   var param = '/' + req.query.cellphone;
 
   service.get(param, function (result) {
@@ -46,7 +46,7 @@ router.get('/checkCellphone', function(req, res, next) {
 });
 
 router.get('/checkEmail', function(req, res, next) {
-  var service = new commonService.CommonService('checkEmail');
+  var service = new commonService.commonInvoke('checkEmail');
   var param = '/' + req.query.email;
 
   service.get(param, function (result) {
@@ -65,7 +65,7 @@ router.get('/checkEmail', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('register');
+  var service = new commonService.commonInvoke('register');
   var data = {
     administratorName: req.body.fullName,
     account: req.body.userName,

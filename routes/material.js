@@ -5,13 +5,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('material');
+  var service = new commonService.commonInvoke('material');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('material', {
         title: '商品材质维护',
@@ -68,8 +68,27 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/all', function (req, res, next) {
+  var service = new commonService.commonInvoke('material');
+
+  service.getAll(function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        materialList: result.content.responseData
+      });
+    }
+  });
+});
+
 router.get('/checkMaterial', function (req, res, next) {
-  var service = new commonService.CommonService('checkMaterialName');
+  var service = new commonService.commonInvoke('checkMaterialName');
   var parameter = req.query.materialName;
 
   service.get(parameter, function (result) {
@@ -89,7 +108,7 @@ router.get('/checkMaterial', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('material');
+  var service = new commonService.commonInvoke('material');
   var data = {
     materialCN: req.body.materialCN,
     materialEN: req.body.materialEN,
@@ -112,7 +131,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('material');
+  var service = new commonService.commonInvoke('material');
   var data = {
     materialID: req.body.materialID,
     materialCN: req.body.materialCN,
@@ -136,7 +155,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('material');
+  var service = new commonService.commonInvoke('material');
   var materialID = req.query.materialID;
 
   service.delete(materialID, function (result) {

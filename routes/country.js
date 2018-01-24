@@ -3,18 +3,16 @@ var express = require('express');
 var fs = require('fs');
 var commonService = require('../service/commonService');
 var pagingUtils = require('../common/pagingUtils');
-var multer = require('multer');
 var router = express.Router();
-var upload = multer({dest:'public/images/country/'});
 
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('country');
+  var service = new commonService.commonInvoke('country');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('country', {
         title: '国家维护',
@@ -71,7 +69,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/all', function (req, res, next) {
-  var service = new commonService.CommonService('country');
+  var service = new commonService.commonInvoke('country');
 
   service.get('', function (result) {
     if(result.err || !result.content.result){
@@ -89,7 +87,7 @@ router.get('/all', function (req, res, next) {
 });
 
 router.get('/checkCountry', function (req, res, next) {
-  var service = new commonService.CommonService('checkCountryName');
+  var service = new commonService.commonInvoke('checkCountryName');
   var parameter = req.query.countryName;
 
   service.get(parameter, function (result) {
@@ -109,7 +107,7 @@ router.get('/checkCountry', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('country');
+  var service = new commonService.commonInvoke('country');
   var data = {
     countryNameCN: req.body.countryNameCN,
     countryNameEN: req.body.countryNameEN,
@@ -132,7 +130,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('country');
+  var service = new commonService.commonInvoke('country');
   var data = {
     countryID: req.body.countryID,
     countryNameCN: req.body.countryNameCN,
@@ -156,7 +154,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('country');
+  var service = new commonService.commonInvoke('country');
   var countryID = req.query.countryID;
 
   service.delete(countryID, function (result) {

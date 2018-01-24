@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('login');
+  var service = new commonService.commonInvoke('login');
   var param = req.body.userName + '/' + req.body.password;
 
   service.get(param, function (result) {

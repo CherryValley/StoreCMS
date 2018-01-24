@@ -4,13 +4,13 @@ var pagingUtils = require('../common/pagingUtils');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    var service = new commonService.CommonService('category');
+    var service = new commonService.commonInvoke('category');
     var pageNumber = req.query.page;
     if(pageNumber === undefined){
         pageNumber = 1;
     }
 
-    service.getAll(pageNumber, function (result) {
+    service.getPageData(pageNumber, function (result) {
         if(result.err || !result.content.result){
             res.render('category', {
                 title: '商品一级分类维护',
@@ -66,8 +66,27 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/all', function (req, res, next) {
+  var service = new commonService.commonInvoke('category');
+
+  service.getAll(function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        categoryList: result.content.responseData
+      });
+    }
+  });
+});
+
 router.get('/checkCategory', function (req, res, next) {
-  var service = new commonService.CommonService('checkCategoryName');
+  var service = new commonService.commonInvoke('checkCategoryName');
   var parameter = req.query.categoryName;
 
   service.get(parameter, function (result) {
@@ -87,7 +106,7 @@ router.get('/checkCategory', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    var service = new commonService.CommonService('category');
+    var service = new commonService.commonInvoke('category');
     var data = {
         categoryCN: req.body.categoryCN,
         categoryEN: req.body.categoryEN,
@@ -110,7 +129,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-    var service = new commonService.CommonService('category');
+    var service = new commonService.commonInvoke('category');
     var data = {
         categoryID: req.body.categoryID,
         categoryCN: req.body.categoryCN,
@@ -134,7 +153,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-    var service = new commonService.CommonService('category');
+    var service = new commonService.commonInvoke('category');
     var categoryID = req.query.categoryID;
 
     service.delete(categoryID, function (result) {

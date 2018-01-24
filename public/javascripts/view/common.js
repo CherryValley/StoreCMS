@@ -15,7 +15,10 @@ function setAlertBell() {
 
 function setActiveNav() {
   var pathname = window.location.pathname;
-  if(pathname.indexOf('addItem') >= 0 || pathname.indexOf('changeItem') >= 0 || pathname.indexOf('viewItem') >= 0){
+  if(pathname.indexOf('addItem') >= 0
+      || pathname.indexOf('changeItem') >= 0
+      || pathname.indexOf('viewItem') >= 0
+      || pathname.indexOf('uploadItemImage') >= 0){
     pathname = '/item';
   }
   $('.nav-list li.active').removeClass('active');
@@ -59,24 +62,61 @@ function hiddenMessage() {
   $('.alert-warning span:last').text('');
 }
 
+function propAlert(msg, selector) {
+  var html = '<div class="modal fade" tabindex="-1" role="dialog" id="dialog-alert-message">\n' +
+    '  <div class="modal-dialog" role="document">\n' +
+    '    <div class="modal-content">\n' +
+    '      <div class="modal-header">\n' +
+    '        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+    '        <h4 class="modal-title">系统提示</h4>\n' +
+    '      </div>\n' +
+    '      <div class="modal-body">\n' +
+    '        <p>' + msg + '</p>\n' +
+    '      </div>\n' +
+    '    </div>\n' +
+    '  </div>\n' +
+    '</div>';
+
+  var dialog = $('#dialog-alert-message');
+  if(dialog.length === 0){
+    $('.page-content').after(html);
+  }else{
+    $('#dialog-alert-message .modal-body p').text(msg);
+  }
+
+  $('#dialog-alert-message').modal('show');
+
+  setTimeout(function () {
+    $('#dialog-alert-message').modal('hide');
+    // $('#dialog-alert-message').remove();
+    if(selector !== undefined){
+      $(selector).parent().parent().addClass('has-error');
+    }
+  }, 2000);
+}
+
+function resetInputStatus(selector) {
+  $(selector).parent().parent().removeClass('has-error');
+}
+
 function setPaginationStatus() {
   var currentPageNum = $('#hidden-currentPageNum').val();
   if(currentPageNum !== undefined){
     //设置默认选中的页码
     $('ul.pagination li').each(function () {
-      if($(this).text() === currentPageNum){
+      if($.trim($(this).text()) === currentPageNum){
         $(this).addClass('active');
       }
     });
 
     //设置前一页按钮是否可用
-    var firstPageNumber = $('ul.pagination li').eq(1).text();
+    var firstPageNumber = $.trim($('ul.pagination li').eq(1).text());
     if(currentPageNum === firstPageNumber){
       $('ul.pagination li').eq(0).addClass('disabled');
     }
 
     //设置后一页按钮是否可用
-    var lastPageNumber = $('ul.pagination li').eq($('ul.pagination li').length - 2).text();
+    var lastPageNumber = $.trim($('ul.pagination li').eq($('ul.pagination li').length - 2).text());
     if(currentPageNum === lastPageNumber){
       $('ul.pagination li').eq($('ul.pagination li').length - 1).addClass('disabled');
     }
@@ -129,4 +169,16 @@ function delCookie(name) {
   var cval=getCookie(name);
   if(cval!=null)
     document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+}
+
+function isDecimal(v) {
+  var regu = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+  var reg = new RegExp(regu);
+  return reg.test(v);
+}
+
+function isRate(v) {
+  var regu = "^0+[\.][0-9]{0,2}$";
+  var re = new RegExp(regu);
+  return re.test(v);
 }

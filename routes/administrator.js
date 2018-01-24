@@ -4,13 +4,13 @@ var pagingUtils = require('../common/pagingUtils');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('administrator');
+  var service = new commonService.commonInvoke('administrator');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('administrator', {
         title: '管理员信息维护',
@@ -68,13 +68,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/customerRoleList', function (req, res, next) {
-  var service = new commonService.CommonService('administrator');
+  var service = new commonService.commonInvoke('administrator');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.json({
         err: true,
@@ -91,13 +91,13 @@ router.get('/customerRoleList', function (req, res, next) {
 });
 
 router.get('/statusList', function (req, res, next) {
-  var service = new commonService.CommonService('administrator');
+  var service = new commonService.commonInvoke('administrator');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.json({
         err: true,
@@ -114,7 +114,7 @@ router.get('/statusList', function (req, res, next) {
 });
 
 router.get('/checkAdministrator', function (req, res, next) {
-  var service = new commonService.CommonService('checkAdministratorName');
+  var service = new commonService.commonInvoke('checkAdministratorName');
   var parameter = req.query.administratorName;
 
   service.get(parameter, function (result) {
@@ -134,7 +134,7 @@ router.get('/checkAdministrator', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('administrator');
+  var service = new commonService.commonInvoke('administrator');
   var data = {
     administratorID: req.body.administratorID,
     administratorName: req.body.administratorName,
@@ -162,7 +162,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('administratorApprove');
+  var service = new commonService.commonInvoke('administratorApprove');
   var data = {
     administratorID: req.body.administratorID,
     customerRole: req.body.customerRole,
@@ -186,7 +186,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('administrator');
+  var service = new commonService.commonInvoke('administrator');
   var administratorID = req.query.administratorID;
 
   service.delete(administratorID, function (result) {

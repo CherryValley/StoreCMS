@@ -4,13 +4,13 @@ var pagingUtils = require('../common/pagingUtils');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('expressCompany');
+  var service = new commonService.commonInvoke('expressCompany');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('expressCompany', {
         title: '快递公司维护',
@@ -68,7 +68,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/checkCompany', function (req, res, next) {
-  var service = new commonService.CommonService('checkCompanyName');
+  var service = new commonService.commonInvoke('checkCompanyName');
   var parameter = req.query.companyName;
 
   service.get(parameter, function (result) {
@@ -88,7 +88,7 @@ router.get('/checkCompany', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('expressCompany');
+  var service = new commonService.commonInvoke('expressCompany');
   var data = {
     companyCN: req.body.companyCN,
     companyEN: req.body.companyEN,
@@ -111,7 +111,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('expressCompany');
+  var service = new commonService.commonInvoke('expressCompany');
   var data = {
     companyID: req.body.companyID,
     companyCN: req.body.companyCN,
@@ -135,7 +135,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('expressCompany');
+  var service = new commonService.commonInvoke('expressCompany');
   var companyID = req.query.companyID;
 
   service.delete(companyID, function (result) {

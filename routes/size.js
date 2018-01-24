@@ -5,13 +5,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('size');
+  var service = new commonService.commonInvoke('size');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('size', {
         title: '商品尺码维护',
@@ -68,8 +68,27 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/all', function (req, res, next) {
+  var service = new commonService.commonInvoke('size');
+
+  service.getAll(function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        sizeList: result.content.responseData
+      });
+    }
+  });
+});
+
 router.get('/checkSize', function (req, res, next) {
-  var service = new commonService.CommonService('checkSizeName');
+  var service = new commonService.commonInvoke('checkSizeName');
   var parameter = req.query.sizeName;
 
   service.get(parameter, function (result) {
@@ -89,7 +108,7 @@ router.get('/checkSize', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('size');
+  var service = new commonService.commonInvoke('size');
   var data = {
     sizeCN: req.body.sizeCN,
     sizeEN: req.body.sizeEN,
@@ -112,7 +131,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('size');
+  var service = new commonService.commonInvoke('size');
   var data = {
     sizeID: req.body.sizeID,
     sizeCN: req.body.sizeCN,
@@ -136,7 +155,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('size');
+  var service = new commonService.commonInvoke('size');
   var sizeID = req.query.sizeID;
 
   service.delete(sizeID, function (result) {

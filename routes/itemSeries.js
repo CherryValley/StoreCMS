@@ -5,13 +5,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('itemSeries');
+  var service = new commonService.commonInvoke('itemSeries');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('itemSeries', {
         title: '商品系列维护',
@@ -68,8 +68,27 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/all', function (req, res, next) {
+  var service = new commonService.commonInvoke('itemSeries');
+
+  service.getAll(function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        seriesList: result.content.responseData
+      });
+    }
+  });
+});
+
 router.get('/checkItemSeries', function (req, res, next) {
-  var service = new commonService.CommonService('checkItemSeriesName');
+  var service = new commonService.commonInvoke('checkItemSeriesName');
   var parameter = req.query.itemSeriesName;
 
   service.get(parameter, function (result) {
@@ -89,7 +108,7 @@ router.get('/checkItemSeries', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('itemSeries');
+  var service = new commonService.commonInvoke('itemSeries');
   var data = {
     itemSeriesCN: req.body.itemSeriesCN,
     itemSeriesEN: req.body.itemSeriesEN,
@@ -112,7 +131,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('itemSeries');
+  var service = new commonService.commonInvoke('itemSeries');
   var data = {
     seriesID: req.body.seriesID,
     itemSeriesCN: req.body.itemSeriesCN,
@@ -136,7 +155,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('itemSeries');
+  var service = new commonService.commonInvoke('itemSeries');
   var seriesID = req.query.seriesID;
 
   service.delete(seriesID, function (result) {

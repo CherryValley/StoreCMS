@@ -21,13 +21,13 @@ var upload = multer({
 });
 
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('brand');
+  var service = new commonService.commonInvoke('brand');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('brand', {
         title: '品牌维护',
@@ -84,8 +84,27 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/all', function (req, res, next) {
+  var service = new commonService.commonInvoke('brand');
+
+  service.getAll(function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        brandList: result.content.responseData
+      });
+    }
+  });
+});
+
 router.get('/checkBrand', function (req, res, next) {
-  var service = new commonService.CommonService('checkBrandName');
+  var service = new commonService.commonInvoke('checkBrandName');
   var parameter = req.query.brandName;
 
   service.get(parameter, function (result) {
@@ -105,7 +124,7 @@ router.get('/checkBrand', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('brand');
+  var service = new commonService.commonInvoke('brand');
   var data = {
     brandCN: req.body.brandCN,
     brandEN: req.body.brandEN,
@@ -129,7 +148,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('brand');
+  var service = new commonService.commonInvoke('brand');
   var data = {
     brandID: req.body.brandID,
     brandCN: req.body.brandCN,
@@ -153,7 +172,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('brand');
+  var service = new commonService.commonInvoke('brand');
   var brandID = req.query.brandID;
 
   service.delete(brandID, function (result) {
@@ -180,7 +199,6 @@ router.post('/imageUpload',  upload.single('file'), function(req,res,next){
     imageUrl : url
   });
   res.end();
-
 });
 
 module.exports = router;

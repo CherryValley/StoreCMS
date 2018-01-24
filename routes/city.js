@@ -4,13 +4,13 @@ var pagingUtils = require('../common/pagingUtils');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  var service = new commonService.CommonService('city');
+  var service = new commonService.commonInvoke('city');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
-  service.getAll(pageNumber, function (result) {
+  service.getPageData(pageNumber, function (result) {
     if(result.err || !result.content.result){
       res.render('city', {
         title: '城市维护',
@@ -68,7 +68,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/checkCity', function (req, res, next) {
-  var service = new commonService.CommonService('checkCityName');
+  var service = new commonService.commonInvoke('checkCityName');
   var parameter = req.query.cityName;
 
   service.get(parameter, function (result) {
@@ -88,7 +88,7 @@ router.get('/checkCity', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.CommonService('city');
+  var service = new commonService.commonInvoke('city');
   var data = {
     provinceID: req.body.provinceID,
     countryID: req.body.countryID,
@@ -113,7 +113,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.CommonService('city');
+  var service = new commonService.commonInvoke('city');
   var data = {
     cityID: req.body.cityID,
     provinceID: req.body.provinceID,
@@ -139,7 +139,7 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.CommonService('city');
+  var service = new commonService.commonInvoke('city');
   var cityID = req.query.cityID;
 
   service.delete(cityID, function (result) {
