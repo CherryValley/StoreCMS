@@ -55,7 +55,7 @@
           </tr>
           </thead>
           <tbody>
-          {{#each subCategoryList}}
+          {{#each dataList}}
             <tr>
               <td class="center">{{this.subCategoryID}}</td>
               <td>{{this.subCategoryCN}}</td>
@@ -142,7 +142,7 @@
                 <div class="form-group">
                   <label for="inputPassword3" class="col-sm-3 control-label">商品二级分类英文</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" maxlength="15" v-model="subCategoryNameEN" @blur="onSubCategoryENBlur()"/>
+                    <input type="text" class="form-control" maxlength="25" v-model="subCategoryNameEN" @blur="onSubCategoryENBlur()"/>
                   </div>
                 </div>
                 <div class="form-group">

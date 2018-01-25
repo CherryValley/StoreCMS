@@ -18,28 +18,30 @@ var app = new Vue({
   },
   methods:{
     checkSubCategoryName: function (subCategoryName, lan) {
-      if($.trim(subCategoryName).length === 0){
-        return false;
-      }
-      $.ajax({
-        url: '/subCategory/checkSubCategory?subCategoryName='+subCategoryName,
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            lan === 'CN' ? app.$data.subCategoryNameCNValid = false : app.$data.subCategoryNameENValid = false;
-            showMessage(res.msg);
-          }else if(res.exist){
-            lan === 'CN' ? app.$data.subCategoryNameCNValid = false : app.$data.subCategoryNameENValid = false;
-            showMessage(subCategoryName + '已存在。');
-          }else{
-            lan === 'CN' ? app.$data.subCategoryNameCNValid = true : app.$data.subCategoryNameENValid = true;
-            hiddenMessage();
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
+      app.$data.subCategoryNameCNValid = true;
+      app.$data.subCategoryNameENValid = true;
+      // if($.trim(subCategoryName).length === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/subCategory/checkSubCategory?subCategoryName='+subCategoryName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ? app.$data.subCategoryNameCNValid = false : app.$data.subCategoryNameENValid = false;
+      //       showMessage(res.msg);
+      //     }else if(res.exist){
+      //       lan === 'CN' ? app.$data.subCategoryNameCNValid = false : app.$data.subCategoryNameENValid = false;
+      //       showMessage(subCategoryName + '已存在。');
+      //     }else{
+      //       lan === 'CN' ? app.$data.subCategoryNameCNValid = true : app.$data.subCategoryNameENValid = true;
+      //       hiddenMessage();
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
     },
     onUpload: function () {
       app.$data.subCategoryID = $(row).find('td').eq(0).text();

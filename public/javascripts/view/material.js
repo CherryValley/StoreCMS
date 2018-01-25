@@ -18,28 +18,30 @@ var app = new Vue({
   },
   methods:{
     checkMaterialName: function (materialName, lan) {
-      if($.trim(materialName).length === 0){
-        return false;
-      }
-      $.ajax({
-        url: '/material/checkMaterial?materialName='+materialName,
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            lan === 'CN' ? app.$data.materialNameCNValid = false : app.$data.materialNameENValid = false;
-            showMessage(res.msg);
-          }else if(res.exist){
-            lan === 'CN' ? app.$data.materialNameCNValid = false : app.$data.materialNameENValid = false;
-            showMessage(materialName + '已存在。');
-          }else{
-            lan === 'CN' ? app.$data.materialNameCNValid = true : app.$data.materialNameENValid = true;
-            hiddenMessage();
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
+      app.$data.materialNameCNValid = true;
+      app.$data.materialNameENValid = true;
+      // if($.trim(materialName).length === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/material/checkMaterial?materialName='+materialName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ? app.$data.materialNameCNValid = false : app.$data.materialNameENValid = false;
+      //       showMessage(res.msg);
+      //     }else if(res.exist){
+      //       lan === 'CN' ? app.$data.materialNameCNValid = false : app.$data.materialNameENValid = false;
+      //       showMessage(materialName + '已存在。');
+      //     }else{
+      //       lan === 'CN' ? app.$data.materialNameCNValid = true : app.$data.materialNameENValid = true;
+      //       hiddenMessage();
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
     },
     onAdd: function () {
       app.$data.saveType = 'add';

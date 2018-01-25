@@ -56,7 +56,7 @@
           </tr>
           </thead>
           <tbody>
-          {{#each materialList}}
+          {{#each dataList}}
             <tr>
               <td class="center">{{this.materialID}}</td>
               <td>{{this.materialCN}}</td>
@@ -143,7 +143,7 @@
                 <div class="form-group">
                   <label for="inputPassword3" class="col-sm-3 control-label">商品材质英文</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" maxlength="15" v-model="materialNameEN" @blur="onMaterialENBlur()"/>
+                    <input type="text" class="form-control" maxlength="25" v-model="materialNameEN" @blur="onMaterialENBlur()"/>
                   </div>
                 </div>
                 <div class="form-group">

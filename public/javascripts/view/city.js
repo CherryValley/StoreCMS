@@ -59,28 +59,30 @@ var app = new Vue({
       app.bindProvince(countryID);
     },
     checkCityName: function (cityName, lan) {
-      if($.trim(cityName).length === 0){
-        return false;
-      }
-      $.ajax({
-        url: '/city/checkCity?cityName=' + cityName,
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            lan === 'CN' ? app.$data.cityNameCNValid = false : app.$data.cityNameENValid = false;
-            showMessage(res.msg);
-          }else if(res.exist){
-            lan === 'CN' ? app.$data.cityNameCNValid = false : app.$data.cityNameENValid = false;
-            showMessage(cityName + '已存在。');
-          }else{
-            lan === 'CN' ? app.$data.cityNameCNValid = true : app.$data.cityNameENValid = true;
-            hiddenMessage();
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
+      app.$data.cityNameCNValid = true;
+      app.$data.cityNameENValid = true;
+      // if($.trim(cityName).length === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/city/checkCity?cityName=' + cityName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ? app.$data.cityNameCNValid = false : app.$data.cityNameENValid = false;
+      //       showMessage(res.msg);
+      //     }else if(res.exist){
+      //       lan === 'CN' ? app.$data.cityNameCNValid = false : app.$data.cityNameENValid = false;
+      //       showMessage(cityName + '已存在。');
+      //     }else{
+      //       lan === 'CN' ? app.$data.cityNameCNValid = true : app.$data.cityNameENValid = true;
+      //       hiddenMessage();
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
     },
     onAdd: function () {
       app.$data.saveType = 'add';

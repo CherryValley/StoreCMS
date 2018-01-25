@@ -27,28 +27,30 @@ var app = new Vue({
   },
   methods:{
     checkBrandName: function (brandName, lan) {
-      if($.trim(brandName).length === 0){
-        return false;
-      }
-      $.ajax({
-        url: '/brand/checkBrand?brandName='+brandName,
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            lan === 'CN' ? app.$data.brandNameCNValid = false : app.$data.brandNameENValid = false;
-            showMessage(res.msg);
-          }else if(res.exist){
-            lan === 'CN' ? app.$data.brandNameCNValid = false : app.$data.brandNameENValid = false;
-            showMessage(brandName + '已存在。');
-          }else{
-            lan === 'CN' ? app.$data.brandNameCNValid = true : app.$data.brandNameENValid = true;
-            hiddenMessage();
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
+      app.$data.brandNameCNValid = true;
+      app.$data.brandNameENValid = true;
+      // if($.trim(brandName).length === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/brand/checkBrand?brandName='+brandName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ? app.$data.brandNameCNValid = false : app.$data.brandNameENValid = false;
+      //       showMessage(res.msg);
+      //     }else if(res.exist){
+      //       lan === 'CN' ? app.$data.brandNameCNValid = false : app.$data.brandNameENValid = false;
+      //       showMessage(brandName + '已存在。');
+      //     }else{
+      //       lan === 'CN' ? app.$data.brandNameCNValid = true : app.$data.brandNameENValid = true;
+      //       hiddenMessage();
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
     },
     onUpload: function () {
       var file = $('#demo-fileInput-4')[0].files;

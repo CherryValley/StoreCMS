@@ -18,28 +18,30 @@ var app = new Vue({
   },
   methods:{
     checkColorName: function (colorName, lan) {
-      if($.trim(colorName).length === 0){
-        return false;
-      }
-      $.ajax({
-        url: '/color/checkColor?colorName='+colorName,
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            lan === 'CN' ? app.$data.colorNameCNValid = false : app.$data.colorNameENValid = false;
-            showMessage(res.msg);
-          }else if(res.exist){
-            lan === 'CN' ? app.$data.colorNameCNValid = false : app.$data.colorNameENValid = false;
-            showMessage(colorName + '已存在。');
-          }else{
-            lan === 'CN' ? app.$data.colorNameCNValid = true : app.$data.colorNameENValid = true;
-            hiddenMessage();
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
+      app.$data.colorNameCNValid = true;
+      app.$data.colorNameENValid = true;
+      // if($.trim(colorName).length === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/color/checkColor?colorName='+colorName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ? app.$data.colorNameCNValid = false : app.$data.colorNameENValid = false;
+      //       showMessage(res.msg);
+      //     }else if(res.exist){
+      //       lan === 'CN' ? app.$data.colorNameCNValid = false : app.$data.colorNameENValid = false;
+      //       showMessage(colorName + '已存在。');
+      //     }else{
+      //       lan === 'CN' ? app.$data.colorNameCNValid = true : app.$data.colorNameENValid = true;
+      //       hiddenMessage();
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
     },
     onAdd: function () {
       app.$data.saveType = 'add';

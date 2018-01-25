@@ -19,28 +19,30 @@ var app = new Vue({
   },
   methods:{
     checkCountryName: function (countryName, lan) {
-      if($.trim(countryName).length === 0){
-        return false;
-      }
-      $.ajax({
-        url: '/country/checkCountry?countryName='+countryName,
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            lan === 'CN' ? app.$data.countryNameCNValid = false : app.$data.countryNameENValid = false;
-            showMessage(res.msg);
-          }else if(res.exist){
-            lan === 'CN' ? app.$data.countryNameCNValid = false : app.$data.countryNameENValid = false;
-            showMessage(countryName + '已存在。');
-          }else{
-            lan === 'CN' ? app.$data.countryNameCNValid = true : app.$data.countryNameENValid = true;
-            hiddenMessage();
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
+      app.$data.countryNameCNValid = true;
+      app.$data.countryNameENValid = true;
+      // if($.trim(countryName).length === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/country/checkCountry?countryName='+countryName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ? app.$data.countryNameCNValid = false : app.$data.countryNameENValid = false;
+      //       showMessage(res.msg);
+      //     }else if(res.exist){
+      //       lan === 'CN' ? app.$data.countryNameCNValid = false : app.$data.countryNameENValid = false;
+      //       showMessage(countryName + '已存在。');
+      //     }else{
+      //       lan === 'CN' ? app.$data.countryNameCNValid = true : app.$data.countryNameENValid = true;
+      //       hiddenMessage();
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
     },
     onAdd: function () {
       app.$data.saveType = 'add';

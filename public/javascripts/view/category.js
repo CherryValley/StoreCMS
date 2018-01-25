@@ -18,28 +18,30 @@ var app = new Vue({
   },
   methods:{
     checkCategoryName: function (categoryName, lan) {
-      if($.trim(categoryName).length === 0){
-        return false;
-      }
-      $.ajax({
-        url: '/category/checkCategory?categoryName='+categoryName,
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            lan === 'CN' ? app.$data.categoryNameCNValid = false : app.$data.categoryNameENValid = false;
-            showMessage(res.msg);
-          }else if(res.exist){
-            lan === 'CN' ? app.$data.categoryNameCNValid = false : app.$data.categoryNameENValid = false;
-            showMessage(categoryName + '已存在。');
-          }else{
-            lan === 'CN' ? app.$data.categoryNameCNValid = true : app.$data.categoryNameENValid = true;
-            hiddenMessage();
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
+      app.$data.categoryNameCNValid = true;
+      app.$data.categoryNameENValid = true;
+      // if($.trim(categoryName).length === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/category/checkCategory?categoryName='+categoryName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ? app.$data.categoryNameCNValid = false : app.$data.categoryNameENValid = false;
+      //       showMessage(res.msg);
+      //     }else if(res.exist){
+      //       lan === 'CN' ? app.$data.categoryNameCNValid = false : app.$data.categoryNameENValid = false;
+      //       showMessage(categoryName + '已存在。');
+      //     }else{
+      //       lan === 'CN' ? app.$data.categoryNameCNValid = true : app.$data.categoryNameENValid = true;
+      //       hiddenMessage();
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
     },
     onUpload: function () {
       app.$data.categoryID = $(row).find('td').eq(0).text();

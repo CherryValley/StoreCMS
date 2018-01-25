@@ -1,8 +1,6 @@
 
 var express = require('express');
-var fs = require('fs');
 var commonService = require('../service/commonService');
-var pagingUtils = require('../common/pagingUtils');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -13,58 +11,8 @@ router.get('/', function(req, res, next) {
   }
 
   service.getPageData(pageNumber, function (result) {
-    if(result.err || !result.content.result){
-      res.render('country', {
-        title: '国家维护',
-        totalCount: 0,
-        paginationArray:[],
-        countryList: []
-      });
-    }else{
-      var paginationArray = pagingUtils.getPaginationArray(pageNumber, result.content.totalCount);
-      var prePaginationNum = pagingUtils.getPrePaginationNum(pageNumber);
-      var nextPaginationNum = pagingUtils.getNextPaginationNum(pageNumber, result.content.totalCount);
-      var renderData = {};
-      if(result.content.responseData === null){
-        renderData = {
-          title: '国家维护',
-          totalCount: result.content.totalCount,
-          currentPageNum: pageNumber,
-          countryList: result.content.responseData
-        }
-      }else{
-        if(prePaginationNum > 0 && nextPaginationNum > 0){
-          renderData = {
-            title: '国家维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            prePageNum: prePaginationNum,
-            nextPageNum: nextPaginationNum,
-            currentPageNum: pageNumber,
-            countryList: result.content.responseData
-          }
-        }else if(prePaginationNum === 0){
-          renderData = {
-            title: '国家维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            nextPageNum: nextPaginationNum,
-            currentPageNum: pageNumber,
-            countryList: result.content.responseData
-          }
-        }else {
-          renderData = {
-            title: '国家维护',
-            totalCount: result.content.totalCount,
-            paginationArray: paginationArray,
-            prePageNum: prePaginationNum,
-            currentPageNum: pageNumber,
-            countryList: result.content.responseData
-          }
-        }
-      }
-      res.render('country', renderData);
-    }
+    var renderData = commonService.buildRenderData('国家维护', pageNumber, result);
+    res.render('country', renderData);
   });
 });
 

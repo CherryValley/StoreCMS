@@ -18,28 +18,30 @@ var app = new Vue({
   },
   methods:{
     checkItemSeriesName: function (itemSeriesName, lan) {
-      if($.trim(itemSeriesName).length === 0){
-        return false;
-      }
-      $.ajax({
-        url: '/itemSeries/checkItemSeries?itemSeriesName='+itemSeriesName,
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            lan === 'CN' ? app.$data.itemSeriesNameCNValid = false : app.$data.itemSeriesNameENValid = false;
-            showMessage(res.msg);
-          }else if(res.exist){
-            lan === 'CN' ? app.$data.itemSeriesNameCNValid = false : app.$data.itemSeriesNameENValid = false;
-            showMessage(itemSeriesName + '已存在。');
-          }else{
-            lan === 'CN' ? app.$data.itemSeriesNameCNValid = true : app.$data.itemSeriesNameENValid = true;
-            hiddenMessage();
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
+      app.$data.itemSeriesNameCNValid = true;
+      app.$data.itemSeriesNameENValid = true;
+      // if($.trim(itemSeriesName).length === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/itemSeries/checkItemSeries?itemSeriesName='+itemSeriesName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ? app.$data.itemSeriesNameCNValid = false : app.$data.itemSeriesNameENValid = false;
+      //       showMessage(res.msg);
+      //     }else if(res.exist){
+      //       lan === 'CN' ? app.$data.itemSeriesNameCNValid = false : app.$data.itemSeriesNameENValid = false;
+      //       showMessage(itemSeriesName + '已存在。');
+      //     }else{
+      //       lan === 'CN' ? app.$data.itemSeriesNameCNValid = true : app.$data.itemSeriesNameENValid = true;
+      //       hiddenMessage();
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
     },
     onAdd: function () {
       app.$data.saveType = 'add';
