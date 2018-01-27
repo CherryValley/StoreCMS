@@ -19,12 +19,14 @@ router.get('/', function(req, res, next) {
   var brandList = [];
   var categoryList = [];
   var subCategoryList = [];
+  var itemGroupList = [];
   var seriesList = [];
   var colorList = [];
   var sizeList = [];
   var materialList = [];
   var madeCountryList = [];
 
+  //取得品牌信息
   brandService.getAll(function (result) {
     if(result.err || !result.content.result){
       res.json({
@@ -33,6 +35,7 @@ router.get('/', function(req, res, next) {
       });
     }else{
       brandList = result.content.responseData;
+      //取得一级分类信息
       categoryService.getAll(function (result) {
         if(result.err || !result.content.result){
           res.json({
@@ -41,6 +44,7 @@ router.get('/', function(req, res, next) {
           });
         }else{
           categoryList = result.content.responseData;
+          //取得二级分类信息
           subCategoryService.getAll(function (result) {
             if(result.err || !result.content.result){
               res.json({
@@ -49,68 +53,63 @@ router.get('/', function(req, res, next) {
               });
             }else{
               subCategoryList = result.content.responseData;
-              subCategoryService.getAll(function (result) {
+              itemSeriesService.getAll(function (result) {
                 if(result.err || !result.content.result){
                   res.json({
                     err: true,
                     msg: result.msg
                   });
                 }else{
-                  subCategoryList = result.content.responseData;
-                  itemSeriesService.getAll(function (result) {
+                  seriesList = result.content.responseData;
+                  //取得颜色信息
+                  colorService.getAll(function (result) {
                     if(result.err || !result.content.result){
                       res.json({
                         err: true,
                         msg: result.msg
                       });
                     }else{
-                      seriesList = result.content.responseData;
-                      colorService.getAll(function (result) {
+                      colorList = result.content.responseData;
+                      //取得尺寸信息
+                      sizeService.getAll(function (result) {
                         if(result.err || !result.content.result){
                           res.json({
                             err: true,
                             msg: result.msg
                           });
                         }else{
-                          colorList = result.content.responseData;
-                          sizeService.getAll(function (result) {
+                          sizeList = result.content.responseData;
+                          //取得商品材质信息
+                          materialService.getAll(function (result) {
                             if(result.err || !result.content.result){
                               res.json({
                                 err: true,
                                 msg: result.msg
                               });
                             }else{
-                              sizeList = result.content.responseData;
-                              materialService.getAll(function (result) {
+                              materialList = result.content.responseData;
+                              //取得商品产地信息
+                              countryService.getAll(function (result) {
                                 if(result.err || !result.content.result){
                                   res.json({
                                     err: true,
                                     msg: result.msg
                                   });
                                 }else{
-                                  materialList = result.content.responseData;
-                                  countryService.getAll(function (result) {
-                                    if(result.err || !result.content.result){
-                                      res.json({
-                                        err: true,
-                                        msg: result.msg
-                                      });
-                                    }else{
-                                      madeCountryList = result.content.responseData;
-                                      res.render('addItem', {
-                                        title: '添加商品',
-                                        optionType: optionType,
-                                        itemID: itemID,
-                                        brandList: brandList,
-                                        categoryList: categoryList,
-                                        subCategoryList: subCategoryList,
-                                        seriesList: seriesList,
-                                        colorList: colorList,
-                                        sizeList: sizeList,
-                                        materialList: materialList,
-                                        madeCountryList: madeCountryList
-                                      });
-                                    }
+                                  madeCountryList = result.content.responseData;
+                                  res.render('addItem', {
+                                    title: '添加商品',
+                                    optionType: optionType,
+                                    itemID: itemID,
+                                    brandList: brandList,
+                                    categoryList: categoryList,
+                                    subCategoryList: subCategoryList,
+                                    itemGroupList: itemGroupList,
+                                    seriesList: seriesList,
+                                    colorList: colorList,
+                                    sizeList: sizeList,
+                                    materialList: materialList,
+                                    madeCountryList: madeCountryList
                                   });
                                 }
                               });
@@ -129,7 +128,6 @@ router.get('/', function(req, res, next) {
     }
   });
 });
-
 router.get('/checkItemCode', function (req, res, next) {
   var service = new commonService.commonInvoke('checkItemCode');
   var parameter = req.query.itemCode;
@@ -200,10 +198,9 @@ router.post('/', function (req, res, next) {
     brandID: req.body.brandID,
     categoryID: req.body.categoryID,
     subCategoryID: req.body.subCategoryID,
+    itemGroupID: req.body.itemGroupID,
     seriesID: req.body.seriesID,
     itemCode: req.body.itemCode,
-    itemNameCN: req.body.itemNameCN,
-    itemNameEN: req.body.itemNameEN,
     unitPrice4RMB: req.body.unitPrice4RMB,
     promotionPrice4RMB: req.body.promotionPrice4RMB,
     unitPrice4USD: req.body.unitPrice4USD,
@@ -211,7 +208,7 @@ router.post('/', function (req, res, next) {
     rate: req.body.rate,
     colorID: req.body.colorID,
     sizeID: req.body.sizeID,
-    materialID: req.body.materialID,
+    itemMaterial: req.body.itemMaterial,
     madeInID: req.body.madeInID,
     itemLength: req.body.itemLength,
     adjustLength: req.body.adjustLength,
@@ -248,10 +245,9 @@ router.put('/', function (req, res, next) {
     brandID: req.body.brandID,
     categoryID: req.body.categoryID,
     subCategoryID: req.body.subCategoryID,
+    itemGroupID: req.body.itemGroupID,
     seriesID: req.body.seriesID,
     itemCode: req.body.itemCode,
-    itemNameCN: req.body.itemNameCN,
-    itemNameEN: req.body.itemNameEN,
     unitPrice4RMB: req.body.unitPrice4RMB,
     promotionPrice4RMB: req.body.promotionPrice4RMB,
     unitPrice4USD: req.body.unitPrice4USD,
@@ -259,7 +255,7 @@ router.put('/', function (req, res, next) {
     rate: req.body.rate,
     colorID: req.body.colorID,
     sizeID: req.body.sizeID,
-    materialID: req.body.materialID,
+    itemMaterial: req.body.itemMaterial,
     madeInID: req.body.madeInID,
     itemLength: req.body.itemLength,
     adjustLength: req.body.adjustLength,

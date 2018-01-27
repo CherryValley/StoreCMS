@@ -3,61 +3,50 @@ var commonService = require('../service/commonService');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  var service = new commonService.commonInvoke('country');
+  var service = new commonService.commonInvoke('itemGroup');
   var pageNumber = req.query.page;
   if(pageNumber === undefined){
     pageNumber = 1;
   }
 
   service.getPageData(pageNumber, function (result) {
-    var renderData = commonService.buildRenderData('国家维护', pageNumber, result);
-    res.render('country', renderData);
+    var renderData = commonService.buildRenderData('商品组维护', pageNumber, result);
+    res.render('itemGroup', renderData);
   });
 });
 
-router.get('/all', function (req, res, next) {
-  var service = new commonService.commonInvoke('country');
+router.get('/all', function(req, res, next) {
+  var service = new commonService.commonInvoke('itemGroup');
+  var brandID = req.query.brandID;
+  var categoryID = req.query.categoryID;
+  var subCategoryID = req.query.subCategoryID;
+  var parameter = brandID + '/' + categoryID + '/' + subCategoryID;
 
-  service.get('', function (result) {
-    if(result.err || !result.content.result){
-      res.json({
-        err: true,
-        msg: result.msg
-      });
-    }else{
-      res.json({
-        err: false,
-        countryList: result.content.responseData
-      });
-    }
-  });
-});
-
-router.get('/checkCountry', function (req, res, next) {
-  var service = new commonService.commonInvoke('checkCountryName');
-  var parameter = req.query.countryName;
 
   service.get(parameter, function (result) {
-    if(result.err || !result.content.result){
+    if(result.err){
       res.json({
         err: true,
         msg: result.msg
       });
     }else{
       res.json({
-        err: false,
-        msg: result.content.responseMessage,
-        exist: result.content.responseData
+        err: !result.content.result,
+        msg: result.msg,
+        itemGroupList: result.content.responseData
       });
     }
   });
 });
 
 router.post('/', function (req, res, next) {
-  var service = new commonService.commonInvoke('country');
+  var service = new commonService.commonInvoke('itemGroup');
   var data = {
-    countryNameCN: req.body.countryNameCN,
-    countryNameEN: req.body.countryNameEN,
+    brandID: req.body.brandID,
+    categoryID: req.body.categoryID,
+    subCategoryID: req.body.subCategoryID,
+    itemGroupCN: req.body.itemGroupCN,
+    itemGroupEN: req.body.itemGroupEN,
     loginUser: req.body.loginUser
   };
 
@@ -77,11 +66,14 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/', function(req,res,next){
-  var service = new commonService.commonInvoke('country');
+  var service = new commonService.commonInvoke('itemGroup');
   var data = {
-    countryID: req.body.countryID,
-    countryNameCN: req.body.countryNameCN,
-    countryNameEN: req.body.countryNameEN,
+    itemGroupID: req.body.itemGroupID,
+    brandID: req.body.brandID,
+    categoryID: req.body.categoryID,
+    subCategoryID: req.body.subCategoryID,
+    itemGroupCN: req.body.itemGroupCN,
+    itemGroupEN: req.body.itemGroupEN,
     loginUser: req.body.loginUser
   };
 
@@ -101,10 +93,10 @@ router.put('/', function(req,res,next){
 });
 
 router.delete('/', function (req, res, next) {
-  var service = new commonService.commonInvoke('country');
-  var countryID = req.query.countryID;
+  var service = new commonService.commonInvoke('itemGroup');
+  var itemGroupID = req.query.itemGroupID;
 
-  service.delete(countryID, function (result) {
+  service.delete(itemGroupID, function (result) {
     if(result.err){
       res.json({
         err: true,

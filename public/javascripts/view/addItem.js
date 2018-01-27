@@ -13,12 +13,14 @@ var app = new Vue({
     selectedCategory: 0,
     subCategoryList: [],
     selectedSubCategory: 0,
+    itemGroupList: [],
+    selectedItemGroup: 0,
     seriesList: [],
     selectedSeries: 0,
-    itemNameCN: '',
-    itemNameCNValid: false,
-    itemNameEN: '',
-    itemNameENValid: false,
+    // itemNameCN: '',
+    // itemNameCNValid: false,
+    // itemNameEN: '',
+    // itemNameENValid: false,
     unitPrice4RMB: '',
     unitPriceValid4RMB: false,
     promotionPrice4RMB: '',
@@ -34,7 +36,9 @@ var app = new Vue({
     sizeList: [],
     selectedSize: 0,
     materialList: [],
-    selectedMaterial: 0,
+    selectedMaterial: [],
+    selectedMaterialName: [],
+    displayMaterialName: '',
     countryList: [],
     selectedMadeIn: 0,
     itemLength:'',
@@ -48,16 +52,19 @@ var app = new Vue({
   },
   computed: {
     enabledSave: function () {
-      return this.selectedItemStatus.length > 0
+      return this.itemCode.length > 0
+        && this.itemCodeValid
+        && this.selectedItemStatus.length > 0
         && this.selectedBrand > 0
         && this.selectedCategory > 0
         && this.selectedSubCategory > 0
-        && this.itemCode.length > 0
-        && this.itemCodeValid
-        && this.itemNameCN.length > 0
-        && this.itemNameEN.length > 0
-        && this.itemNameCNValid
-        && this.itemNameENValid
+        && this.selectedItemGroup > 0
+        && this.selectedMadeIn > 0
+        && this.selectedColor > 0
+        && this.selectedSize > 0
+        && this.selectedMaterial.length > 0
+        && this.rate.length > 0
+        && this.rateValid
         && this.unitPrice4RMB.length > 0
         && this.unitPriceValid4RMB
         && this.promotionPrice4RMB.length > 0
@@ -66,20 +73,15 @@ var app = new Vue({
         && this.unitPriceValid4USD
         && this.promotionPrice4USD.length > 0
         && this.promotionPriceValid4USD
-        && this.rate.length > 0
-        && this.rateValid
-        && this.selectedColor > 0
-        && this.selectedSize > 0
-        // && this.selectedMaterial > 0
-        && this.selectedMadeIn > 0
-        // && this.itemLength.length > 0
-        // && this.adjustLength.length > 0
         && this.suitablePetCN.length > 0
         && this.suitablePetEN.length > 0
         && this.itemShortDescriptionCN.length > 0
         && this.itemShortDescriptionEN.length > 0
         && this.itemDescriptionCN.length > 0
         && this.itemDescriptionEN.length > 0;
+    },
+    enabledSelected: function () {
+      return this.selectedMaterial.length > 0;
     }
   },
   methods: {
@@ -87,14 +89,6 @@ var app = new Vue({
       this.initValues();
       this.initItemStatus();
       this.initUpdateData();
-      // this.initBrand();
-      // this.initCategory();
-      // this.initSubCategory();
-      // this.initSeriesList();
-      // this.initColor();
-      // this.initSize();
-      // this.initMaterial();
-      // this.initMadeCountry();
     },
     initValues: function () {
       this.optionType = $('#hidden-optionType').val();
@@ -116,136 +110,6 @@ var app = new Vue({
         'text': '已下架'
       });
     },
-
-    initBrand: function () {
-      $.ajax({
-        url: '/brand/all',
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            propAlert(res.msg);
-          }else{
-            app.$data.brandList = res.brandList
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
-    },
-    initCategory: function () {
-      $.ajax({
-        url: '/category/all',
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            propAlert(res.msg);
-          }else{
-            app.$data.categoryList = res.categoryList
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
-    },
-    initSubCategory: function () {
-      $.ajax({
-        url: '/subCategory/all',
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            propAlert(res.msg);
-          }else{
-            app.$data.subCategoryList = res.subCategoryList
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
-    },
-    initSeriesList: function () {
-      $.ajax({
-        url: '/itemSeries/all',
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            propAlert(res.msg);
-          }else{
-            app.$data.seriesList = res.seriesList
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
-    },
-    initColor: function () {
-      $.ajax({
-        url: '/color/all',
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            propAlert(res.msg);
-          }else{
-            app.$data.colorList = res.colorList
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
-    },
-    initSize: function () {
-      $.ajax({
-        url: '/size/all',
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            propAlert(res.msg);
-          }else{
-            app.$data.sizeList = res.sizeList
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
-    },
-    initMaterial: function () {
-      $.ajax({
-        url: '/material/all',
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            propAlert(res.msg);
-          }else{
-            app.$data.materialList = res.materialList
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
-    },
-    initMadeCountry: function () {
-      $.ajax({
-        url: '/country/all',
-        type: 'GET',
-        success: function(res){
-          if(res.err){
-            propAlert(res.msg);
-          }else{
-            app.$data.countryList = res.countryList
-          }
-        },
-        error: function(XMLHttpRequest, textStatus){
-          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
-        }
-      });
-    },
-
     initUpdateData: function () {
       if(this.optionType !== 'upd'){
         return false;
@@ -263,6 +127,7 @@ var app = new Vue({
             app.$data.selectedBrand = res.data.brandID;
             app.$data.selectedCategory = res.data.categoryID;
             app.$data.selectedSubCategory = res.data.subCategoryID;
+            app.$data.selectedItemGroup = res.data.itemGroupID;
             app.$data.selectedSeries = res.data.seriesID;
             app.$data.itemNameCN = res.data.itemNameCN;
             app.$data.itemNameEN = res.data.itemNameEN;
@@ -273,7 +138,8 @@ var app = new Vue({
             app.$data.rate = res.data.rate.toString();
             app.$data.selectedColor = res.data.colorID;
             app.$data.selectedSize = res.data.sizeID;
-            app.$data.selectedMaterial = res.data.materialID;
+            app.$data.selectedMaterial = res.data.itemMaterial.split(',');
+            app.$data.displayMaterialName = res.data.itemMaterialName;
             app.$data.selectedMadeIn = res.data.madeInID;
             app.$data.itemLength = res.data.itemLength;
             app.$data.adjustLength = res.data.adjustLength;
@@ -291,6 +157,7 @@ var app = new Vue({
             app.$data.unitPriceValid4USD = true;
             app.$data.promotionPriceValid4USD = true;
             app.$data.rateValid = true;
+            app.initItemGroup(res.data.itemGroupID);
             $('#form-field-itemCode').attr('disabled', 'disabled');
           }
         },
@@ -300,68 +167,85 @@ var app = new Vue({
       });
     },
     checkItemName: function (itemName, lan) {
-      if($.trim(itemName).length === 0
-          || app.$data.selectedBrand === 0
-          || app.$data.selectedCategory === 0
-          || app.$data.selectedSubCategory === 0){
+      // if($.trim(itemName).length === 0
+      //     || app.$data.selectedBrand === 0
+      //     || app.$data.selectedCategory === 0
+      //     || app.$data.selectedSubCategory === 0){
+      //   return false;
+      // }
+      // $.ajax({
+      //   url: '/addItem/checkItemName?brandID=' + app.$data.selectedBrand +
+      //   '&categoryID=' + app.$data.selectedCategory +
+      //   '&subCategoryID=' + app.$data.selectedSubCategory +
+      //   '&seriesID=' + app.$data.selectedSeries +
+      //   '&itemName=' + itemName,
+      //   type: 'GET',
+      //   success: function(res){
+      //     if(res.err){
+      //       lan === 'CN' ?
+      //           app.$data.itemNameCNValid = false :
+      //           app.$data.itemNameENValid = false;
+      //       lan === 'CN' ?
+      //           propAlert(res.msg, '#form-field-itemNameCN') :
+      //           propAlert(res.msg, '#form-field-itemNameEN');
+      //     }else if(res.exist){
+      //       lan === 'CN' ?
+      //           app.$data.itemNameCNValid = false :
+      //           app.$data.itemNameENValid = false;
+      //       lan === 'CN' ?
+      //           propAlert('商品名称' + itemName + '已存在。', '#form-field-itemNameCN') :
+      //           propAlert('商品名称' + itemName + '已存在。', '#form-field-itemNameEN');
+      //     }else{
+      //       lan === 'CN' ?
+      //           app.$data.itemNameCNValid = true :
+      //           app.$data.itemNameENValid = true;
+      //       lan === 'CN' ?
+      //           resetInputStatus('#form-field-itemNameCN') :
+      //           resetInputStatus('#form-field-itemNameEN');
+      //     }
+      //   },
+      //   error: function(XMLHttpRequest, textStatus){
+      //     showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+      //   }
+      // });
+    },
+    initItemGroup: function (selectedItemGroupID) {
+      if(parseInt(this.selectedBrand) === 0 || parseInt(this.selectedCategory) === 0 || parseInt(this.selectedSubCategory) === 0){
+        this.itemGroupList = null;
+        this.selectedItemGroup = 0;
         return false;
       }
       $.ajax({
-        url: '/addItem/checkItemName?brandID=' + app.$data.selectedBrand +
-        '&categoryID=' + app.$data.selectedCategory +
-        '&subCategoryID=' + app.$data.selectedSubCategory +
-        '&seriesID=' + app.$data.selectedSeries +
-        '&itemName=' + itemName,
+        url: '/itemGroup/all?brandID=' + this.selectedBrand
+        + '&categoryID=' + this.selectedCategory
+        + '&subCategoryID=' + this.selectedSubCategory,
         type: 'GET',
         success: function(res){
           if(res.err){
-            lan === 'CN' ?
-                app.$data.itemNameCNValid = false :
-                app.$data.itemNameENValid = false;
-            lan === 'CN' ?
-                propAlert(res.msg, '#form-field-itemNameCN') :
-                propAlert(res.msg, '#form-field-itemNameEN');
-          }else if(res.exist){
-            lan === 'CN' ?
-                app.$data.itemNameCNValid = false :
-                app.$data.itemNameENValid = false;
-            lan === 'CN' ?
-                propAlert('商品名称' + itemName + '已存在。', '#form-field-itemNameCN') :
-                propAlert('商品名称' + itemName + '已存在。', '#form-field-itemNameEN');
+            propAlert(res.msg);
           }else{
-            lan === 'CN' ?
-                app.$data.itemNameCNValid = true :
-                app.$data.itemNameENValid = true;
-            lan === 'CN' ?
-                resetInputStatus('#form-field-itemNameCN') :
-                resetInputStatus('#form-field-itemNameEN');
+            if(res.itemGroupList === null){
+              app.$data.selectedItemGroup = 0;
+            }
+            app.$data.itemGroupList = res.itemGroupList;
+            if(selectedItemGroupID !== undefined && selectedItemGroupID !== null){
+              app.$data.selectedItemGroup = selectedItemGroupID;
+            }
           }
         },
         error: function(XMLHttpRequest, textStatus){
-          showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
         }
       });
     },
     onBrandChange: function () {
-      if(parseInt(this.selectedBrand) === 0){
-        return false;
-      }
-      this.checkItemName(this.itemNameCN, 'CN');
-      this.checkItemName(this.itemNameEN, 'EN');
+      this.initItemGroup();
     },
     onCategoryChange: function () {
-      if(parseInt(this.selectedCategory) === 0){
-        return false;
-      }
-      this.checkItemName(this.itemNameCN, 'CN');
-      this.checkItemName(this.itemNameEN, 'EN');
+      this.initItemGroup();
     },
     onSubCategoryChange: function () {
-      if(parseInt(this.selectedCategory) === 0){
-        return false;
-      }
-      this.checkItemName(this.itemNameCN, 'CN');
-      this.checkItemName(this.itemNameEN, 'EN');
+      this.initItemGroup();
     },
     onSeriesChange: function () {
       if(parseInt(this.selectedSeries) === 0){
@@ -458,7 +342,6 @@ var app = new Vue({
         propAlert('请输入正确的促销价！', '#form-field-promotionPrice4USD');
       }
     },
-
     onRateBlur: function () {
       if(app.$data.rate.length === 0){
         return false;
@@ -472,6 +355,46 @@ var app = new Vue({
         propAlert('请输入正确的折扣，折扣只能输入小数！', '#form-field-rate');
       }
     },
+    onShowMaterial: function () {
+      var checkboxList = $('#material-list input[type="checkbox"]');
+      for(var i= 0; i <= checkboxList.length - 1; i++){
+        checkboxList[i].checked = false;
+      }
+
+      for(var i = 0; i <= this.selectedMaterial.length - 1; i++){
+        for(var j = 0; j <= checkboxList.length - 1; j++){
+          if(this.selectedMaterial[i] === checkboxList[j].getAttribute('value')){
+            checkboxList[j].checked = true;
+          }
+        }
+      }
+      $('#myModal').modal('show');
+    },
+    onMaterialChecked: function (materialID, materialNameCN, e) {
+      // var element = e.currentTarget;
+      // if(element.checked){
+      //   this.selectedMaterial.push(materialID);
+      //   this.selectedMaterialName.push(materialNameCN);
+      // }else{
+      //   var index = this.selectedMaterial.indexOf(materialID);
+      //   var index4Name = this.selectedMaterialName.indexOf(materialNameCN);
+      //   this.selectedMaterial.splice(index, 1);
+      //   this.selectedMaterialName.splice(index4Name, 1);
+      // }
+    },
+    onSelected: function () {
+      var checkboxList = $('#material-list input[type="checkbox"]');
+      this.selectedMaterial.splice(0, this.selectedMaterial.length);
+      this.selectedMaterialName.splice(0, this.selectedMaterialName.length);
+      for(var i = 0; i <= checkboxList.length - 1; i++){
+        if(checkboxList[i].checked){
+          this.selectedMaterial.push(checkboxList[i].getAttribute('value'));
+          this.selectedMaterialName.push(checkboxList[i].getAttribute('data-text'));
+        }
+      }
+      this.displayMaterialName = this.selectedMaterialName.join(',');
+      $('#myModal').modal('hide');
+    },
     onSave: function () {
       var saveData = {
         itemID: this.itemID,
@@ -480,8 +403,7 @@ var app = new Vue({
         subCategoryID: this.selectedSubCategory,
         seriesID: this.selectedSeries,
         itemCode: this.itemCode,
-        itemNameCN: this.itemNameCN,
-        itemNameEN: this.itemNameEN,
+        itemGroupID: this.selectedItemGroup,
         unitPrice4RMB: this.unitPrice4RMB,
         promotionPrice4RMB: this.promotionPrice4RMB,
         unitPrice4USD: this.unitPrice4USD,
@@ -489,7 +411,7 @@ var app = new Vue({
         rate: this.rate,
         colorID: this.selectedColor,
         sizeID: this.selectedSize,
-        materialID: this.selectedMaterial,
+        itemMaterial: this.selectedMaterial.join(','),
         madeInID: this.selectedMadeIn,
         itemLength: this.itemLength,
         adjustLength: this.adjustLength,

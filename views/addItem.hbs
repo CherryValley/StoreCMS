@@ -1,3 +1,4 @@
+
 <div class="breadcrumbs" id="breadcrumbs">
   <ul class="breadcrumb">
     <li>
@@ -10,7 +11,7 @@
     <li class="active">商品添加</li>
   </ul>
 </div>
-<div class="page-content">
+<div class="page-content" id="app">
   <div class="page-header">
     <h1>
       业务信息
@@ -20,8 +21,7 @@
       </small>
     </h1>
   </div>
-
-  <div class="page-body" id="app">
+  <div class="page-body">
     <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
@@ -33,7 +33,8 @@
           </div>
         </div>
       </div>
-
+    </div>
+    <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">商品编码</label>
@@ -42,8 +43,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
+
       <div class="col-sm-6">
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">商品状态</label>
@@ -57,6 +57,8 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">品牌</label>
@@ -66,16 +68,10 @@
               {{#each brandList}}
                 <option value="{{this.brandID}}">{{this.brandCN}}</option>
               {{/each}}
-
-              <!--<option v-for="brand in brandList" :value="brand.brandID">-->
-                <!--\{{brand.brandCN}}-->
-              <!--</option>-->
             </select>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">一级分类</label>
@@ -85,14 +81,12 @@
               {{#each categoryList}}
                 <option value="{{this.categoryID}}">{{this.categoryCN}}</option>
               {{/each}}
-
-              <!--<option v-for="category in categoryList" :value="category.categoryID">-->
-                <!--\{{category.categoryCN}}-->
-              <!--</option>-->
             </select>
           </div>
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-3 control-label">二级分类</label>
@@ -102,10 +96,17 @@
               {{#each subCategoryList}}
                 <option value="{{this.subCategoryID}}">{{this.subCategoryCN}}</option>
               {{/each}}
-
-              <!--<option v-for="subCategory in subCategoryList" :value="subCategory.subCategoryID">-->
-                <!--\{{subCategory.subCategoryCN}}-->
-              <!--</option>-->
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-3 control-label">商品组</label>
+          <div class="col-sm-9">
+            <select class="form-control" v-model="selectedItemGroup">
+              <option value="0" selected>请选择商品组</option>
+                <option v-for="itemGroup in itemGroupList" :value="itemGroup.itemGroupID">\{{itemGroup.itemGroupCN}}</option>
             </select>
           </div>
         </div>
@@ -114,26 +115,27 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
-          <label for="inputEmail3" class="col-sm-3 control-label">商品系列</label>
+          <label class="col-sm-3 control-label">商品系列</label>
           <div class="col-sm-9">
             <select class="form-control" v-model="selectedSeries" @change="onSeriesChange()">
               <option value="0" selected>请选择商品系列</option>
               {{#each seriesList}}
                 <option value="{{this.seriesID}}">{{this.itemSeriesCN}}</option>
               {{/each}}
-
-              <!--<option v-for="series in seriesList" :value="series.seriesID">-->
-                <!--\{{series.itemSeriesCN}}-->
-              <!--</option>-->
             </select>
           </div>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
-          <label class="col-sm-3 control-label">商品名（中文）</label>
+          <label class="col-sm-3 control-label">商品产地</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" maxlength="15" id="form-field-itemNameCN" v-model="itemNameCN" @blur="onItemNameCNBlur()">
+            <select class="form-control" v-model="selectedMadeIn">
+              <option value="0" selected>请选择商品产地</option>
+              {{#each madeCountryList}}
+                <option value="{{this.countryID}}">{{this.countryNameCN}}</option>
+              {{/each}}
+            </select>
           </div>
         </div>
       </div>
@@ -141,9 +143,38 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
-          <label class="col-sm-3 control-label">商品名（英文）</label>
+          <label for="inputEmail3" class="col-sm-3 control-label">商品颜色</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" maxlength="35" v-model="itemNameEN" id="form-field-itemNameEN" @blur="onItemNameENBlur()">
+            <select class="form-control" v-model="selectedColor">
+              <option value="0" selected>请选择商品颜色</option>
+              {{#each colorList}}
+                <option value="{{this.colorID}}">{{this.colorCN}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-3 control-label">商品尺寸</label>
+          <div class="col-sm-9">
+            <select class="form-control" v-model="selectedSize">
+              <option value="0" selected>请选择商品尺寸</option>
+              {{#each sizeList}}
+                <option value="{{this.sizeID}}">{{this.sizeCN}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">商品材质</label>
+          <div class="col-sm-9">
+            <input type="text" style="width: 413px; height: 32px" v-model="displayMaterialName" readonly>
+            <button type="button" class="btn btn-success btn-sm" style="height: 32px; margin-top: -3px" @click="onShowMaterial()">选择材质</button>
           </div>
         </div>
       </div>
@@ -188,78 +219,6 @@
           <label for="inputEmail3" class="col-sm-3 control-label">商品促销价（USD）</label>
           <div class="col-sm-9">
             <input type="text" class="form-control text-number" maxlength="10" id="form-field-promotionPrice4USD" v-model="promotionPrice4USD" @blur="onPromotionPrice4USDBlur()" placeholder="小数部分最多两位，如99.99">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="inputEmail3" class="col-sm-3 control-label">商品颜色</label>
-          <div class="col-sm-9">
-            <select class="form-control" v-model="selectedColor">
-              <option value="0" selected>请选择商品颜色</option>
-              {{#each colorList}}
-                <option value="{{this.colorID}}">{{this.colorCN}}</option>
-              {{/each}}
-
-              <!--<option v-for="color in colorList" :value="color.colorID">-->
-                <!--\{{color.colorCN}}-->
-              <!--</option>-->
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="inputEmail3" class="col-sm-3 control-label">商品尺寸</label>
-          <div class="col-sm-9">
-            <select class="form-control" v-model="selectedSize">
-              <option value="0" selected>请选择商品尺寸</option>
-              {{#each sizeList}}
-                <option value="{{this.sizeID}}">{{this.sizeCN}}</option>
-              {{/each}}
-
-              <!--<option v-for="size in sizeList" :value="size.sizeID">-->
-                <!--\{{size.sizeCN}}-->
-              <!--</option>-->
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="inputEmail3" class="col-sm-3 control-label">商品材质</label>
-          <div class="col-sm-9">
-            <select class="form-control" v-model="selectedMaterial">
-              <option value="0" selected>请选择商品材质</option>
-              {{#each materialList}}
-                <option value="{{this.materialID}}">{{this.materialCN}}</option>
-              {{/each}}
-
-              <!--<option v-for="material in materialList" :value="material.materialID">-->
-                <!--\{{material.materialCN}}-->
-              <!--</option>-->
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="inputEmail3" class="col-sm-3 control-label">商品产地</label>
-          <div class="col-sm-9">
-            <select class="form-control" v-model="selectedMadeIn">
-              <option value="0" selected>请选择商品尺寸</option>
-              {{#each madeCountryList}}
-                <option value="{{this.countryID}}">{{this.countryNameCN}}</option>
-              {{/each}}
-
-              <!--<option v-for="country in countryList" :value="country.countryID">-->
-                <!--\{{country.countryNameCN}}-->
-              <!--</option>-->
-            </select>
           </div>
         </div>
       </div>
@@ -318,7 +277,6 @@
         </div>
       </div>
     </div>
-
     <div class="row">
       <div class="col-sm-6">
         <div class="form-group">
@@ -337,8 +295,6 @@
         </div>
       </div>
     </div>
-
-
     <div class="row">
       <div class="col-sm-12 text-center" style="margin: 15px">
         <a href="/item" class="btn btn-default">返回</a>
@@ -347,7 +303,47 @@
     </div>
   </div>
 
-
+  <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">选择商品材质</h4>
+        </div>
+        <div class="alert alert-danger store-alert hidden">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span></span>
+        </div>
+        <div class="modal-body">
+          <table class="table table-condensed table-hover" id="material-list">
+            <tbody>
+            {{#each materialList}}
+              <tr>
+                <td style="width: 80px">
+                  <div class="checkbox">
+                    <label>
+                      <input name="form-field-material" type="checkbox" value="{{this.materialID}}" data-text="{{this.materialCN}}" class="ace">
+                      <span class="lbl"></span>
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  {{this.materialCN}}
+                </td>
+              </tr>
+            {{/each}}
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="onSelected()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 
 <script src="/javascripts/view/addItem.js"></script>
