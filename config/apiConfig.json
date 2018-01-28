@@ -40,7 +40,8 @@
       "checkItemCode":"/api/item/exist",
       "checkItemName":"/api/item/exist",
       "image":"/api/image",
-      "imageList":"/api/image/list"
+      "imageList":"/api/image/list",
+      "brandHot":"/api/brandHot"
     }
   }
 }

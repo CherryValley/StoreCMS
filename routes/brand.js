@@ -69,6 +69,26 @@ router.get('/checkBrand', function (req, res, next) {
   });
 });
 
+router.get('/detail', function (req, res, next) {
+  var service = new commonService.commonInvoke('brand');
+  var brandID = req.query.brandID;
+
+  service.get(brandID, function (result) {
+    if(result.err){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: !result.content.result,
+        msg: result.content.responseMessage,
+        data: result.content.responseData
+      });
+    }
+  });
+});
+
 router.post('/', function (req, res, next) {
   var service = new commonService.commonInvoke('brand');
   var data = {
