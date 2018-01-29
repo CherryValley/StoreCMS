@@ -63,6 +63,7 @@
               <td>{{this.brandCN}}</td>
               <td>{{this.brandEN}}</td>
               <td>
+                <input type="hidden" value="{{this.imageID}}">
                 <img src="{{this.imageSrc}}" alt="品牌图片" class="img-responsive" style="height: 60px">
               </td>
               <td>{{this.inUser}}</td>
@@ -153,14 +154,21 @@
                 <div class="form-group">
                   <label for="inputPassword3" class="col-sm-2 control-label">品牌图片</label>
                   <div class="col-sm-10">
-                    <form method="post" enctype="multipart/form-data" class="text-center">
-                      <input type="file" name="file" id="demo-fileInput-4" class="demo-fileInput-4" accept="image/jpeg,image/x-png" @change="onFileChange()">
-                      <div class="brand-upd-image">
-                        <img :src="brandImageUrl" class="img-responsive" v-if="saveType == 'change'">
-                      </div>
 
-                      <button type="button" class="btn btn-pink" :disabled="!enabledUpload" @click="onUpload" v-if="saveType == 'add'">上传</button>
-                    </form>
+                    <div v-show="saveType === 'add' || (saveType === 'change' && showImage === false)">
+                      <form method="post" enctype="multipart/form-data" class="text-center">
+                        <input type="file" name="file" id="demo-fileInput-4" class="demo-fileInput-4" accept="image/jpeg,image/x-png" @change="onFileChange()">
+                        <button type="button" class="btn btn-pink margin-top-15" :disabled="!enabledUpload" @click="onUpload">上传</button>
+                        <button type="button" class="btn btn-default margin-top-15" v-show="saveType === 'change'" @click="onCancel()">取消</button>
+                      </form>
+                    </div>
+
+
+                    <div class="brand-upd-image" v-show="saveType === 'change' && showImage">
+                      <img :src="brandImageUrl" class="img-responsive">
+                      <button type="button" class="btn btn-primary margin-top-15" @click="onChangeImage()">更新</button>
+                    </div>
+
                     <div class="alert alert-warning alert-dismissible hidden" role="alert">
                       <strong>提示!</strong>
                       <span></span>

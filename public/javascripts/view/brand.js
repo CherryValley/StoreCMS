@@ -4,20 +4,20 @@ var app = new Vue({
     brandID: '',
     brandNameCN: '',
     brandNameEN: '',
+    brandImageID: '',
     brandImageUrl: '',
     brandImageName: '',
     brandNameCNValid: false,
     brandNameENValid: false,
     uploadEnabled: false,
+    showImage: true,
     saveType: ''
   },
   computed: {
     enabledSave: function () {
       return this.brandNameCN.length > 0
           && this.brandNameEN.length > 0
-          && this.brandImageUrl.length > 0
-          && this.brandNameCNValid > 0
-          && this.brandNameENValid > 0;
+          && this.brandImageUrl.length > 0;
     },
     enabledUpload: function () {
       return this.brandNameCN.length > 0
@@ -92,7 +92,7 @@ var app = new Vue({
       app.$data.brandID = '';
       app.$data.brandNameCN = '';
       app.$data.brandNameEN = '';
-      $('.jFiler-theme-dragdropbox').removeClass('hidden');
+      // $('.jFiler-theme-dragdropbox').removeClass('hidden');
       hiddenMessage();
       $('#myModal').modal('show');
     },
@@ -101,11 +101,19 @@ var app = new Vue({
       app.$data.brandID = $(row).find('td').eq(0).text();
       app.$data.brandNameCN = $(row).find('td').eq(1).text();
       app.$data.brandNameEN = $(row).find('td').eq(2).text();
+      app.$data.brandImageID = $(row).find('td').eq(3).find('input').val();
       app.$data.brandImageUrl = $(row).find('td').eq(3).find('img').attr('src');
+      this.showImage = true;
       app.$data.saveType = 'change';
-      $('.jFiler-theme-dragdropbox').addClass('hidden');
+      // $('.jFiler-theme-dragdropbox').addClass('hidden');
       hiddenMessage();
       $('#myModal').modal('show');
+    },
+    onChangeImage: function () {
+      this.showImage = false;
+    },
+    onCancel: function () {
+      this.showImage = true;
     },
     onDelete: function (brandID, brandName) {
       var confirmMsg = '您确定要删除品牌：' + brandName + '吗？';
@@ -160,6 +168,7 @@ var app = new Vue({
           brandID: app.$data.brandID,
           brandCN: app.$data.brandNameCN,
           brandEN: app.$data.brandNameEN,
+          brandImageID: app.$data.brandImageID,
           brandImageUrl: app.$data.brandImageUrl,
           loginUser: getLoginUser()
         };

@@ -119,6 +119,8 @@ router.put('/', function(req,res,next){
     brandID: req.body.brandID,
     brandCN: req.body.brandCN,
     brandEN: req.body.brandEN,
+    brandImageID: req.body.brandImageID,
+    brandImageUrl: req.body.brandImageUrl,
     loginUser: req.body.loginUser
   };
 
