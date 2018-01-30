@@ -41,6 +41,8 @@
       "checkItemName":"/api/item/exist",
       "image":"/api/image",
       "imageList":"/api/image/list",
+      "shoppingCart":"/api/shoppingCart",
+      "shoppingCartCondition":"/api/shoppingCart/condition",
       "brandHot":"/api/brandHot"
     }
   }
