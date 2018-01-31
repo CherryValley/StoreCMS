@@ -4,7 +4,7 @@ var app = new Vue({
     shoppingCartID: '',
     customerID: '',
     customerName: '',
-    customerValid: true,
+    customerValid: false,
     selectedStatus: ''
   },
   computed: {
@@ -16,7 +16,7 @@ var app = new Vue({
     onShow: function () {
       this.customerID = '';
       this.customerName = '';
-      this.customerValid = true;
+      this.customerValid = false;
       this.selectedStatus = '';
       hiddenMessage();
       $('#myModal').modal('show');
@@ -43,7 +43,7 @@ var app = new Vue({
               showMessage('客户不存在。');
               return false;
             }
-            app.$data.customerName = res.data.customerName;
+            app.$data.customerName = res.data.cellphone;
             app.$data.customerValid = true;
           }
         },
