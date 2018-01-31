@@ -172,9 +172,11 @@
       <div class="col-sm-6">
         <div class="form-group">
           <label class="col-sm-3 control-label">商品材质</label>
-          <div class="col-sm-9">
-            <input type="text" style="width: 413px; height: 32px" v-model="displayMaterialName" readonly>
-            <button type="button" class="btn btn-success btn-sm" style="height: 32px; margin-top: -3px" @click="onShowMaterial()">选择材质</button>
+          <div class="col-sm-7 no-padding-right">
+            <input type="text" class="form-control" v-model="displayMaterialName" readonly>
+          </div>
+          <div class="col-sm-2 no-padding-right">
+            <button type="button" class="btn btn-success btn-sm" style="" @click="onShowMaterial()">选择材质</button>
           </div>
         </div>
       </div>

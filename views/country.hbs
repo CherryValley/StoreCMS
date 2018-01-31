@@ -8,7 +8,7 @@
         <li>
             <a href="#">基本信息</a>
         </li>
-        <li class="active">国家管理</li>
+        <li class="active">商品产地管理</li>
     </ul>
 </div>
 
@@ -18,7 +18,7 @@
             基本信息
             <small>
                 <i class="icon-double-angle-right"></i>
-                国家信息维护
+              商品产地管理
             </small>
         </h1>
     </div><!-- /.page-header -->
@@ -38,10 +38,10 @@
                     <thead>
                     <tr>
                         <th class="center">
-                            国家编号
+                            产地编号
                         </th>
-                        <th>国家名称（中文）</th>
-                        <th>国家名称（英文）</th>
+                        <th>产地名称（中文）</th>
+                        <th>产地名称（英文）</th>
                         <th class="hidden-480">添加</th>
                         <th>
                             <i class="icon-time bigger-110 hidden-480"></i>
@@ -120,7 +120,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">国家信息编辑</h4>
+                            <h4 class="modal-title">产地信息编辑</h4>
                         </div>
                         <div class="alert alert-danger store-alert hidden">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -129,19 +129,19 @@
                         <div class="modal-body">
                             <form class="form-horizontal">
                                 <div class="form-group" v-if="countryID !== ''">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">国家编号</label>
+                                    <label for="inputEmail3" class="col-sm-2 control-label">产地编号</label>
                                     <div class="col-sm-10">
                                         <p class="form-control-static">\{{countryID}}</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">国家中文</label>
+                                    <label for="inputEmail3" class="col-sm-2 control-label">产地中文</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" maxlength="15" v-model="countryNameCN" @blur="onCountryCNBlur()">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-2 control-label">国家英文</label>
+                                    <label for="inputPassword3" class="col-sm-2 control-label">产地英文</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" maxlength="25" v-model="countryNameEN" @blur="onCountryENBlur()"/>
                                     </div>
