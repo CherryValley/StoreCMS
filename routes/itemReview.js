@@ -3,9 +3,63 @@ var commonService = require('../service/commonService');
 var fs= require("fs");
 var router = express.Router();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('itemReview', {title: '商品评论'});
+    var service = new commonService.commonInvoke('itemReview');
+    var pageNumber = req.query.page;
+    if(pageNumber === undefined){
+        pageNumber = 1;
+    }
+
+    service.getPageData(pageNumber, function (result) {
+        var renderData = commonService.buildRenderData('商品评论', pageNumber, result);
+        res.render('itemReview', renderData);
+    });
 });
+
+// router.post('/', function (req, res, next) {
+//     var service = new commonService.commonInvoke('itemReview');
+//     var data = {
+//         customerID: req.body.customerID,
+//         status: req.body.status
+//     };
+//
+//     service.add(data, function (result) {
+//         if(result.err){
+//             res.json({
+//                 err: true,
+//                 msg: result.msg
+//             });
+//         }else{
+//             res.json({
+//                 err: false,
+//                 data: result.content
+//             });
+//         }
+//     });
+// });
+
+router.put('/', function(req,res,next){
+    var service = new commonService.commonInvoke('itemReview');
+    var data = {
+        reviewID: req.body.reviewID,
+        reviewStatus: req.body.reviewStatus,
+        loginUser: req.body.loginUser
+    };
+
+    service.change(data, function (result) {
+        if(result.err){
+            res.json({
+                err: true,
+                msg: result.msg
+            });
+        }else{
+            res.json({
+                err: false,
+                data: result.content
+            });
+        }
+    });
+});
+
 
 module.exports = router;
