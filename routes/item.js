@@ -31,12 +31,6 @@ router.delete('/', function (req, res, next) {
       });
     }else{
       imageList = result.content.responseData;
-
-      //./public/images/item
-
-
-
-
       itemService.delete(itemID, function (result) {
         if(result.err){
           res.json({

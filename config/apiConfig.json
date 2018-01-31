@@ -43,7 +43,8 @@
       "imageList":"/api/image/list",
       "shoppingCart":"/api/shoppingCart",
       "shoppingCartCondition":"/api/shoppingCart/condition",
-      "brandHot":"/api/brandHot"
+      "brandHot":"/api/brandHot",
+      "customer": "/api/customer"
     }
   }
 }
