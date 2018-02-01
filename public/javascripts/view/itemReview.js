@@ -16,51 +16,56 @@ var app = new Vue({
         selectedReviewLevel: '',
         reviewStatusText: '',
         reviewLevelText: '',
-        itemName: '',
-        // itemValid: false,
+        customerValid: false,
         saveType: ''
     },
-    // computed: {
-    //     enabledSave: function () {
-    //         return this.itemID.length > 0
-    //             && this.customerID.length > 0
-    //             && this.selectedStatus.length > 0
-    //             && this.shoppingCount.length > 0;
-    //             // && this.brandValid;
-    //     }
-    // },
+    computed: {
+        enabledSave: function () {
+            return this.customerValid || this.selectedReviewStatus.length > 0;
+        }
+    },
     methods:{
-        onSearch: function () {
+        onShow: function () {
+            this.customerID = '';
+            this.customerName = '';
+            this.customerValid = false;
+            this.itemID = '';
+            this.itemCode = '';
+            this.selectedReviewStatus = '';
+            this.selectedReviewLevel = '';
             hiddenMessage();
             $('#myModal').modal('show');
         },
+        onSearch: function () {
+            $('#myModal').modal('hide');
+            location.href = '/itemReview?page=1' + '&customerID=' + this.customerID + '&itemCode=' + this.itemCode +  '&reviewLevel=' + this.selectedReviewLevel + '&reviewStatus=' + this.selectedReviewStatus;
+        },
         onCustomerIDBlur: function () {
-            // if($.trim(this.customerID).length === 0){
-            //     return false;
-            // }
-            // $.ajax({
-            //     url: '/customer/detail?customerID=' + this.customerID,
-            //     type: 'get',
-            //     success: function(res){
-            //         if(res.err){
-            //             showMessage(res.msg);
-            //         }else{
-            //             hiddenMessage();
-            //             if(res.data === null){
-            //                 app.$data.customerValid = false;
-            //                 app.$data.customerName = '';
-            //                 showMessage('客户不存在。');
-            //                 return false;
-            //             }
-            //             app.$data.customerName = res.data.customerName;
-            //             app.$data.customerValid = true;
-            //         }
-            //     },
-            //     error: function(XMLHttpRequest){
-            //         showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
-            //     }
-            // });
-
+            if($.trim(this.customerID).length === 0){
+                return false;
+            }
+            $.ajax({
+                url: '/customer/detail?customerID=' + this.customerID,
+                type: 'get',
+                success: function(res){
+                    if(res.err){
+                        showMessage(res.msg);
+                    }else{
+                        hiddenMessage();
+                        if(res.data === null){
+                            app.$data.customerValid = false;
+                            app.$data.customerName = '';
+                            showMessage('客户不存在。');
+                            return false;
+                        }
+                        app.$data.customerName = res.data.cellphone;
+                        app.$data.customerValid = true;
+                    }
+                },
+                error: function(XMLHttpRequest){
+                    showMessage('远程服务无响应，状态码：' + XMLHttpRequest.status);
+                }
+            });
         },
         onChange: function (reviewID,status) {
             app.$data.reviewID = reviewID;
