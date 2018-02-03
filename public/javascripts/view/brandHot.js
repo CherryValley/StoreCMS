@@ -2,9 +2,8 @@ var app = new Vue({
   el: '#app',
   data: {
     brandHotID: '',
-    brandID: '',
-    brandName: '',
-    brandValid: false,
+    brandList: [],
+    selectedBrand: 0,
     startDate: '',
     endDate: '',
     endDateValid: false,
@@ -13,22 +12,35 @@ var app = new Vue({
   },
   computed: {
     enabledSave: function () {
-      return this.brandID.length > 0
+      return this.selectedBrand > 0
           && this.startDate.length > 0
           && this.endDate.length > 0
           && this.selectedStatus.length > 0
-          && this.endDateValid
-          && this.brandValid;
+          && this.endDateValid;
     }
   },
   methods:{
+    initProcess: function () {
+      $.ajax({
+        url: '/brand/all',
+        type: 'GET',
+        success: function(res){
+          if(res.err){
+            propAlert(res.msg);
+          }else{
+            app.$data.brandList = res.brandList
+          }
+        },
+        error: function(XMLHttpRequest, textStatus){
+          propAlert('远程服务无响应，状态码：' + XMLHttpRequest.status);
+        }
+      });
+    },
     onAdd: function () {
       this.saveType = 'add';
       this.brandHotID = '';
-      this.brandID = '';
-      this.brandName = '';
+      this.selectedBrand = 0;
       this.endDateValid = false;
-      this.brandValid = false;
       this.startDate = '';
       this.endDate = '';
       this.selectedStatus = '';
@@ -38,8 +50,7 @@ var app = new Vue({
     onChange: function (rowIndex) {
       var row = $('#data-list tbody tr').eq(rowIndex);
       app.$data.brandHotID = $(row).find('td').eq(0).text();
-      app.$data.brandID = $(row).find('td').eq(1).find('input').val();
-      app.$data.brandName = $.trim($(row).find('td').eq(1).text());
+      app.$data.selectedBrand = $(row).find('td').eq(1).find('input').val();
       app.$data.startDate = $.trim($(row).find('td').eq(3).text()).replace(' ', 'T');
       app.$data.endDate = $.trim($(row).find('td').eq(4).text()).replace(' ', 'T');
       app.$data.selectedStatus = $(row).find('td').eq(5).find('input').val();
@@ -122,7 +133,7 @@ var app = new Vue({
       if(app.$data.saveType === 'add'){
         dataType = 'post';
         saveData = {
-          brandID: app.$data.brandID,
+          brandID: app.$data.selectedBrand,
           startDate: app.$data.startDate,
           endDate: app.$data.endDate,
           status: app.$data.selectedStatus,
@@ -132,7 +143,7 @@ var app = new Vue({
         dataType = 'put';
         saveData = {
           brandHotID: app.$data.brandHotID,
-          brandID: app.$data.brandID,
+          brandID: app.$data.selectedBrand,
           startDate: app.$data.startDate,
           endDate: app.$data.endDate,
           status: app.$data.selectedStatus,
@@ -156,5 +167,8 @@ var app = new Vue({
         }
       });
     }
+  },
+  mounted: function () {
+    this.initProcess();
   }
 });
