@@ -36,6 +36,7 @@
       "administratorApprove":"/api/administrator/approve",
       "checkAdministrator":"/api/administrator/exist/name",
       "item":"/api/item",
+      "itemByCode":"/api/item/byCode",
       "itemGroup":"/api/itemGroup",
       "checkItemCode":"/api/item/exist",
       "checkItemName":"/api/item/exist",
@@ -47,7 +48,9 @@
       "shoppingCartCondition":"/api/shoppingCart/condition",
       "brandHot":"/api/brandHot",
       "customer": "/api/customer",
-      "changeCustomerStatus": "/api/customer/changeStatus"
+      "changeCustomerStatus": "/api/customer/changeStatus",
+      "itemHot":"/api/itemHot",
+      "itemPromotion":"/api/itemPromotion"
     }
   }
 }

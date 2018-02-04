@@ -159,7 +159,6 @@ router.delete('/', function (req, res, next) {
 });
 
 router.post('/imageUpload',  upload.single('file'), function(req,res,next){
-//拼接文件上传后的网络路径，
   var url = 'http://' + req.headers.host + '/images/brand/' + req.file.originalname;
   //将其发回客户端
   res.json({

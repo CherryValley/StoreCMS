@@ -3,7 +3,6 @@ var commonService = require('../service/commonService');
 var fs= require("fs");
 var router = express.Router();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   var service = new commonService.commonInvoke('item');
   var pageNumber = req.query.page;
@@ -14,6 +13,26 @@ router.get('/', function(req, res, next) {
   service.getPageData(pageNumber, function (result) {
     var renderData = commonService.buildRenderData('商品维护', pageNumber, result);
     res.render('item', renderData);
+  });
+});
+
+router.get('/byCode', function(req, res, next) {
+  var service = new commonService.commonInvoke('itemByCode');
+  var itemCode = req.query.itemCode;
+
+  service.get(itemCode, function (result) {
+    if(result.err){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: !result.content.result,
+        msg: result.content.responseMessage,
+        data: result.content.responseData
+      });
+    }
   });
 });
 

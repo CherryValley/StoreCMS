@@ -82,7 +82,7 @@ var app = new Vue({
             showMessage('图片上传成功。');
           }
         },
-        error: function () {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
           showMessage('无法连接服务器，请检查网络连接。');
         }
       });
@@ -92,7 +92,6 @@ var app = new Vue({
       app.$data.brandID = '';
       app.$data.brandNameCN = '';
       app.$data.brandNameEN = '';
-      // $('.jFiler-theme-dragdropbox').removeClass('hidden');
       hiddenMessage();
       $('#myModal').modal('show');
     },
@@ -105,7 +104,6 @@ var app = new Vue({
       app.$data.brandImageUrl = $(row).find('td').eq(3).find('img').attr('src');
       this.showImage = true;
       app.$data.saveType = 'change';
-      // $('.jFiler-theme-dragdropbox').addClass('hidden');
       hiddenMessage();
       $('#myModal').modal('show');
     },

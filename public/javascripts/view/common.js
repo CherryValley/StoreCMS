@@ -54,12 +54,12 @@ function alertMessage(msg) {
 
 function showMessage(msg) {
   $('.alert-warning').removeClass('hidden');
-  $('.alert-warning span:last').text(msg);
+  $('.alert-warning span').text(msg);
 }
 
 function hiddenMessage() {
   $('.alert-warning').addClass('hidden');
-  $('.alert-warning span:last').text('');
+  $('.alert-warning span').text('');
 }
 
 function propAlert(msg, selector) {
