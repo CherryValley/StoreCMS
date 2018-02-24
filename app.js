@@ -37,6 +37,7 @@ var itemReview = require('./routes/itemReview');
 var shoppingCart = require('./routes/shoppingCart');
 var order = require('./routes/order');
 var orderTransaction = require('./routes/orderTransaction');
+var user = require('./routes/user');
 var app = express();
 
 // view engine setup
@@ -92,6 +93,7 @@ app.use('/itemReview', itemReview);
 app.use('/shoppingCart', shoppingCart);
 app.use('/order', order);
 app.use('/orderTransaction', orderTransaction);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

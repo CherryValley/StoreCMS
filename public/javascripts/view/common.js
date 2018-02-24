@@ -138,6 +138,15 @@ function showLoginUser() {
   }
 }
 
+function getLoginUserInfo() {
+  var cookie = getCookie('loginUser');
+  if(cookie !== null){
+    return JSON.parse(cookie);
+  }
+
+  return 'unknown';
+}
+
 function getLoginUser() {
   var cookie = getCookie('loginUser');
   if(cookie !== null){
