@@ -15,6 +15,25 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/all', function (req, res, next) {
+  var service = new commonService.commonInvoke('expressCompany');
+
+  service.getAll(function (result) {
+    if(result.err || !result.content.result){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: false,
+        msg: result.content.responseMessage,
+        dataList: result.content.responseData
+      });
+    }
+  });
+});
+
 router.get('/checkCompany', function (req, res, next) {
   var service = new commonService.commonInvoke('checkCompanyName');
   var parameter = req.query.companyName;

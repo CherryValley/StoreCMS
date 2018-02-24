@@ -50,7 +50,10 @@
       "customer": "/api/customer",
       "changeCustomerStatus": "/api/customer/changeStatus",
       "itemHot":"/api/itemHot",
-      "itemPromotion":"/api/itemPromotion"
+      "itemPromotion":"/api/itemPromotion",
+      "order":"/api/order",
+      "changeExpressInfo":"/api/order/changeExpressInfo",
+      "changeOrderStatus":"/api/order/changeStatus"
     }
   }
 }
