@@ -36,6 +36,30 @@ router.get('/byCode', function(req, res, next) {
   });
 });
 
+router.put('/changeItemToShowInList', function (req, res, next) {
+  var service = new commonService.commonInvoke('changeItemToShowInList');
+  var data = {
+    itemID: req.body.itemID,
+    showInListPage: req.body.showInListPage,
+    loginUser: req.body.loginUser
+  };
+
+  service.change(data, function (result) {
+    if(result.err){
+      res.json({
+        err: true,
+        msg: result.msg
+      });
+    }else{
+      res.json({
+        err: !result.content.result,
+        msg: result.content.responseMessage,
+        data: result.content
+      });
+    }
+  });
+});
+
 router.delete('/', function (req, res, next) {
   var itemService = new commonService.commonInvoke('item');
   var imageService = new commonService.commonInvoke('image');

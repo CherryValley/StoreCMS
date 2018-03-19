@@ -29,6 +29,7 @@
         <i class="icon-plus"></i>
         添加
       </a>
+      <button type="button" class="btn btn-info" @click="onUpdateShowListItem()">批量更新列表页显示商品</button>
       <div class="space-6"></div>
       <div class="table-header">
         找到{{totalCount}}条数据
@@ -36,10 +37,8 @@
       <div class="table-responsive">
         <table id="item-list" class="table table-striped table-bordered table-hover no-margin-bottom">
           <thead>
-          <tr>
-            <th class="center">
-              商品编码
-            </th>
+            <tr>
+            <th class="center">商品编码</th>
             <th>缩略图</th>
             <th>品牌</th>
             <th>主分类</th>
@@ -53,6 +52,7 @@
             <th>颜色</th>
             <th>尺码</th>
             <th>商品状态</th>
+            <th>列表页面显示</th>
             <th class="hidden-480">更新</th>
             <th>
               <i class="icon-time bigger-110 hidden-480"></i>
@@ -114,6 +114,13 @@
               <td>
                 <input type="hidden" value="{{this.itemStatus}}">
                 {{this.itemStatusText}}
+              </td>
+              <td class="text-center">
+                {{#if showInListPage}}
+                  <input type="checkbox" checked>
+                {{else}}
+                  <input type="checkbox">
+                {{/if}}
               </td>
               <td>{{this.lastEditUser}}</td>
               <td>{{this.lastEditDate}}</td>
