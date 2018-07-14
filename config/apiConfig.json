@@ -1,7 +1,7 @@
 {
   "StoreService": {
     "host": "localhost",
-    "port": 8080,
+    "port": 8081,
     "path": {
       "brand": "/api/brand",
       "checkBrandName": "/api/brand/exist",
@@ -54,7 +54,8 @@
       "itemPromotion":"/api/itemPromotion",
       "order":"/api/order",
       "changeExpressInfo":"/api/order/changeExpressInfo",
-      "changeOrderStatus":"/api/order/changeStatus"
+      "changeOrderStatus":"/api/order/changeStatus",
+      "dailySnapUp":"/api/dailySnapUp"
     }
   }
 }
