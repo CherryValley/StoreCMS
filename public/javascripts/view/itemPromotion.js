@@ -8,6 +8,8 @@ var app = new Vue({
     startDate: '',
     endDate: '',
     endDateValid: false,
+    promotionPrice4RMB: '',
+    promotionPrice4USD: '',
     selectedStatus: '',
     search_itemID: 0,
     search_itemCode:'',
@@ -24,6 +26,8 @@ var app = new Vue({
       return this.itemID > 0
           && this.startDate.length > 0
           && this.endDate.length > 0
+          && this.promotionPrice4RMB.length > 0
+          && this.promotionPrice4USD.length > 0
           && this.selectedStatus.length > 0
           && this.endDateValid;
     },
@@ -42,6 +46,8 @@ var app = new Vue({
       this.endDateValid = false;
       this.startDate = '';
       this.endDate = '';
+      this.promotionPrice4RMB = '';
+      this.promotionPrice4USD = '';
       this.selectedStatus = '';
       hiddenMessage();
       $('#myModal').modal('show');
@@ -64,6 +70,8 @@ var app = new Vue({
       app.$data.itemCode = $(row).find('td').eq(1).text();
       app.$data.itemID = $(row).find('td').eq(1).find('input').val();
       app.$data.itemName = $.trim($(row).find('td').eq(2).text());
+      app.$data.promotionPrice4RMB = $.trim($(row).find('td').eq(5).text());
+      app.$data.promotionPrice4USD = $.trim($(row).find('td').eq(7).text());
       app.$data.startDate = $.trim($(row).find('td').eq(8).text()).replace(' ', 'T');
       app.$data.endDate = $.trim($(row).find('td').eq(9).text()).replace(' ', 'T');
       app.$data.selectedStatus = $(row).find('td').eq(10).find('input').val();
@@ -197,6 +205,8 @@ var app = new Vue({
           itemID: app.$data.itemID,
           startDate: app.$data.startDate,
           endDate: app.$data.endDate,
+          promotionPrice4RMB: app.$data.promotionPrice4RMB,
+          promotionPrice4USD: app.$data.promotionPrice4USD,
           status: app.$data.selectedStatus,
           loginUser: getLoginUser()
         };
@@ -207,6 +217,8 @@ var app = new Vue({
           itemID: app.$data.itemID,
           startDate: app.$data.startDate,
           endDate: app.$data.endDate,
+          promotionPrice4RMB: app.$data.promotionPrice4RMB,
+          promotionPrice4USD: app.$data.promotionPrice4USD,
           status: app.$data.selectedStatus,
           loginUser: getLoginUser()
         };

@@ -61,21 +61,22 @@ var app = new Vue({
   computed: {
     enabledUpload: function () {
       return this.image1_big.length > 0
-          && this.image1_normal.length > 0
-          && this.image1_thumbnail.length > 0
-          && this.image2_big.length > 0
-          && this.image2_normal.length > 0
-          && this.image2_thumbnail.length > 0
-          && this.image3_big.length > 0
-          && this.image3_normal.length > 0
-          && this.image3_thumbnail.length > 0
-          && this.image4_big.length > 0
-          && this.image4_normal.length > 0
-          && this.image4_thumbnail.length > 0
-          && this.image5_big.length > 0
-          && this.image5_normal.length > 0
-          && this.image5_thumbnail.length > 0
-          && this.imageDetail.length > 0;
+          // && this.image1_normal.length > 0
+          // && this.image1_thumbnail.length > 0
+          // && this.image2_big.length > 0
+          // && this.image2_normal.length > 0
+          // && this.image2_thumbnail.length > 0
+          // && this.image3_big.length > 0
+          // && this.image3_normal.length > 0
+          // && this.image3_thumbnail.length > 0
+          // && this.image4_big.length > 0
+          // && this.image4_normal.length > 0
+          // && this.image4_thumbnail.length > 0
+          // && this.image5_big.length > 0
+          // && this.image5_normal.length > 0
+          // && this.image5_thumbnail.length > 0
+          // && this.imageDetail.length > 0
+          ;
     }
   },
   methods: {

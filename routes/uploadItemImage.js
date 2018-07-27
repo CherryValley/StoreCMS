@@ -1,7 +1,8 @@
 var express = require('express');
-var commonService = require('../service/commonService');
 var multer = require('multer');
+var commonService = require('../service/commonService');
 var router = express.Router();
+
 var storage = multer.diskStorage({
   destination: function (req, file, cb){
     //文件上传成功后会放入public下的upload文件夹

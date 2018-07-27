@@ -19,12 +19,12 @@ var app = new Vue({
     selectedSeries: 0,
     unitPrice4RMB: '',
     unitPriceValid4RMB: false,
-    promotionPrice4RMB: '',
-    promotionPriceValid4RMB: false,
+    // promotionPrice4RMB: '',
+    // promotionPriceValid4RMB: false,
     unitPrice4USD: '',
     unitPriceValid4USD: false,
-    promotionPrice4USD: '',
-    promotionPriceValid4USD: false,
+    // promotionPrice4USD: '',
+    // promotionPriceValid4USD: false,
     rate: '',
     rateValid: false,
     colorList: [],
@@ -63,12 +63,12 @@ var app = new Vue({
         && this.rateValid
         && this.unitPrice4RMB.length > 0
         && this.unitPriceValid4RMB
-        && this.promotionPrice4RMB.length > 0
-        && this.promotionPriceValid4RMB
+        // && this.promotionPrice4RMB.length > 0
+        // && this.promotionPriceValid4RMB
         && this.unitPrice4USD.length > 0
         && this.unitPriceValid4USD
-        && this.promotionPrice4USD.length > 0
-        && this.promotionPriceValid4USD
+        // && this.promotionPrice4USD.length > 0
+        // && this.promotionPriceValid4USD
         && this.suitablePetCN.length > 0
         && this.suitablePetEN.length > 0
         && this.itemShortDescriptionCN.length > 0
@@ -128,9 +128,9 @@ var app = new Vue({
             app.$data.itemNameCN = res.data.itemNameCN;
             app.$data.itemNameEN = res.data.itemNameEN;
             app.$data.unitPrice4RMB = res.data.unitPrice4RMB.toString();
-            app.$data.promotionPrice4RMB = res.data.promotionPrice4RMB.toString();
+            // app.$data.promotionPrice4RMB = res.data.promotionPrice4RMB.toString();
             app.$data.unitPrice4USD = res.data.unitPrice4USD.toString();
-            app.$data.promotionPrice4USD = res.data.promotionPrice4USD.toString();
+            // app.$data.promotionPrice4USD = res.data.promotionPrice4USD.toString();
             app.$data.rate = res.data.rate.toString();
             app.$data.selectedColor = res.data.colorID;
             app.$data.selectedSize = res.data.sizeID;
@@ -149,9 +149,9 @@ var app = new Vue({
             app.$data.itemNameCNValid = true;
             app.$data.itemNameENValid = true;
             app.$data.unitPriceValid4RMB = true;
-            app.$data.promotionPriceValid4RMB = true;
+            // app.$data.promotionPriceValid4RMB = true;
             app.$data.unitPriceValid4USD = true;
-            app.$data.promotionPriceValid4USD = true;
+            // app.$data.promotionPriceValid4USD = true;
             app.$data.rateValid = true;
             app.initItemGroup(res.data.itemGroupID);
             $('#form-field-itemCode').attr('disabled', 'disabled');
@@ -299,19 +299,19 @@ var app = new Vue({
         propAlert('请输入正确的单价！', '#form-field-unitPrice4RMB');
       }
     },
-    onPromotionPrice4RMBBlur: function () {
-      if(app.$data.promotionPrice4RMB.length === 0){
-        return false;
-      }
-      var result = isDecimal(app.$data.promotionPrice4RMB);
-      if(result){
-        app.$data.promotionPriceValid4RMB = true;
-        resetInputStatus('#form-field-promotionPrice4RMB');
-      }else{
-        app.$data.promotionPriceValid4RMB = false;
-        propAlert('请输入正确的促销价！', '#form-field-promotionPrice4RMB');
-      }
-    },
+    // onPromotionPrice4RMBBlur: function () {
+    //   if(app.$data.promotionPrice4RMB.length === 0){
+    //     return false;
+    //   }
+    //   var result = isDecimal(app.$data.promotionPrice4RMB);
+    //   if(result){
+    //     app.$data.promotionPriceValid4RMB = true;
+    //     resetInputStatus('#form-field-promotionPrice4RMB');
+    //   }else{
+    //     app.$data.promotionPriceValid4RMB = false;
+    //     propAlert('请输入正确的促销价！', '#form-field-promotionPrice4RMB');
+    //   }
+    // },
     onUnitPrice4USDBlur: function () {
       if(app.$data.unitPrice4USD.length === 0){
         return false;
@@ -325,19 +325,19 @@ var app = new Vue({
         propAlert('请输入正确的单价！', '#form-field-unitPrice4USD');
       }
     },
-    onPromotionPrice4USDBlur: function () {
-      if(app.$data.promotionPrice4USD.length === 0){
-        return false;
-      }
-      var result = isDecimal(app.$data.promotionPrice4USD);
-      if(result){
-        app.$data.promotionPriceValid4USD = true;
-        resetInputStatus('#form-field-promotionPrice4USD');
-      }else{
-        app.$data.promotionPriceValid4USD = false;
-        propAlert('请输入正确的促销价！', '#form-field-promotionPrice4USD');
-      }
-    },
+    // onPromotionPrice4USDBlur: function () {
+    //   if(app.$data.promotionPrice4USD.length === 0){
+    //     return false;
+    //   }
+    //   var result = isDecimal(app.$data.promotionPrice4USD);
+    //   if(result){
+    //     app.$data.promotionPriceValid4USD = true;
+    //     resetInputStatus('#form-field-promotionPrice4USD');
+    //   }else{
+    //     app.$data.promotionPriceValid4USD = false;
+    //     propAlert('请输入正确的促销价！', '#form-field-promotionPrice4USD');
+    //   }
+    // },
     onRateBlur: function () {
       if(app.$data.rate.length === 0){
         return false;
@@ -401,9 +401,9 @@ var app = new Vue({
         itemCode: this.itemCode,
         itemGroupID: this.selectedItemGroup,
         unitPrice4RMB: this.unitPrice4RMB,
-        promotionPrice4RMB: this.promotionPrice4RMB,
+        // promotionPrice4RMB: this.promotionPrice4RMB,
         unitPrice4USD: this.unitPrice4USD,
-        promotionPrice4USD: this.promotionPrice4USD,
+        // promotionPrice4USD: this.promotionPrice4USD,
         rate: this.rate,
         colorID: this.selectedColor,
         sizeID: this.selectedSize,

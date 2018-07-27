@@ -36,6 +36,7 @@
       "administratorApprove":"/api/administrator/approve",
       "checkAdministrator":"/api/administrator/exist/name",
       "item":"/api/item",
+      "itemDetail":"/api/item/detail",
       "changeItemToShowInList": "/api/item/showInList",
       "itemByCode":"/api/item/byCode",
       "itemGroup":"/api/itemGroup",

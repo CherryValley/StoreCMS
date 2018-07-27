@@ -40,6 +40,8 @@ router.post('/', function (req, res, next) {
     itemID: req.body.itemID,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
+    promotionPrice4RMB: req.body.promotionPrice4RMB,
+    promotionPrice4USD: req.body.promotionPrice4USD,
     status: req.body.status,
     loginUser: req.body.loginUser
   };
@@ -66,6 +68,8 @@ router.put('/', function(req,res,next){
     itemID: req.body.itemID,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
+    promotionPrice4RMB: req.body.promotionPrice4RMB,
+    promotionPrice4USD: req.body.promotionPrice4USD,
     status: req.body.status,
     loginUser: req.body.loginUser
   };

@@ -173,7 +173,7 @@ router.get('/checkItemName', function (req, res, next) {
 });
 
 router.get('/detail', function (req, res, next) {
-  var service = new commonService.commonInvoke('item');
+  var service = new commonService.commonInvoke('itemDetail');
   var parameter = req.query.itemID;
 
   service.get(parameter, function (result) {
@@ -202,9 +202,9 @@ router.post('/', function (req, res, next) {
     seriesID: req.body.seriesID,
     itemCode: req.body.itemCode,
     unitPrice4RMB: req.body.unitPrice4RMB,
-    promotionPrice4RMB: req.body.promotionPrice4RMB,
+    // promotionPrice4RMB: req.body.promotionPrice4RMB,
     unitPrice4USD: req.body.unitPrice4USD,
-    promotionPrice4USD: req.body.promotionPrice4USD,
+    // promotionPrice4USD: req.body.promotionPrice4USD,
     rate: req.body.rate,
     colorID: req.body.colorID,
     sizeID: req.body.sizeID,
@@ -249,9 +249,9 @@ router.put('/', function (req, res, next) {
     seriesID: req.body.seriesID,
     itemCode: req.body.itemCode,
     unitPrice4RMB: req.body.unitPrice4RMB,
-    promotionPrice4RMB: req.body.promotionPrice4RMB,
+    // promotionPrice4RMB: req.body.promotionPrice4RMB,
     unitPrice4USD: req.body.unitPrice4USD,
-    promotionPrice4USD: req.body.promotionPrice4USD,
+    // promotionPrice4USD: req.body.promotionPrice4USD,
     rate: req.body.rate,
     colorID: req.body.colorID,
     sizeID: req.body.sizeID,
